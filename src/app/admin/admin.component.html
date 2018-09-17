@@ -1,0 +1,411 @@
+<!-- page gestion user-->
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">MOUNIR</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link"  href="#">Home <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer" (click)="displayUser()" >getion des utilisateur</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer" (click)="displayProduit()" >Stock</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" style="cursor: pointer" (click)="displayVente()" >Vente</a>
+    </li>
+  
+      </ul >
+      <form style="margin-left: 5%;cursor: pointer;" class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search">
+      </form>
+      <div style="margin-right: 8%;cursor: pointer;">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle"  id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Utilisateur</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <a class="dropdown-item"><strong>{{userName}}</strong></a>
+                    <a class="dropdown-item ;btn btn-danger" (click)="deconnexion()" >Déconnexion</a>
+                  </div>
+                </li>
+            </ul>
+      </div>
+      
+    </div>
+  </nav><div *ngIf="tab_user == 1">
+  <div class="container col-md-12">
+    <div class="panel panel-info">
+      <div class="panel panel-heading"><h1>GESTION DES UTILISATEURS</h1></div>
+      <div class="panel panel-body">
+          <div class="form-group">
+            <a class="btn btn-primary" style="margin-left: 0%;cursor: pointer;" (click)="getMaxId();openModal2(template2)" title="modifier">Add user</a>
+          </div>
+          <table class="table table-bordered table-stripped">
+               <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Prenom</th>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Login</th>
+                      <th scope="col">Password</th>
+                      <th scope="col">Option</th>
+                      <th scope="col">Option</th>
+                 </tr>
+                  
+               </thead>
+              
+                  <tr *ngFor="let a of user;let i=index" >
+                      <td><strong>{{a.id}}</strong> </td>
+                      <td><strong>{{a.prenom}}</strong></td>
+                      <td><strong>{{a.nom}}</strong></td>
+                      <td><strong>{{a.login}}</strong></td>
+                      <td><strong>{{a.password}}</strong></td>
+                      <td>
+                        <a class="btn btn-warning" style="margin-left: 5%;cursor: pointer;" (click)="getId(i);openModal1(template1)" title="modifier">Modifier</a>
+                      </td>
+                      <td>
+                        <a class="btn btn-danger" style="margin-left: 15%;cursor: pointer;"(click)="delete(i);openModal7(template7)" title="supprimer" >Supprimer</a>
+                      </td>  
+
+                    </tr> 
+            </table>
+      </div>
+    </div>
+    <ng-template #template1>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Modification de l'utilisateur</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form  #patientForm="ngForm">
+                <div class="form-group">
+                   <label class="control-label">Identifiant</label>
+                   <input class="form-control" readonly type="text" name="id" required
+                   [(ngModel)]="id"
+                   #name="ngModel">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Prenom</label>
+                    <input class="form-control" type="text" name="prenom" required
+                    [(ngModel)]="prenom"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Nom</label>
+                    <input class="form-control" type="text" name="nom" required
+                    [(ngModel)]="nom"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Login</label>
+                    <input class="form-control" type="text" name="login" required
+                    [(ngModel)]="login"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <input class="form-control" type="text" name="password" required
+                    [(ngModel)]="password"
+                    #name="ngModel">
+                 </div>
+               <div class="form-group">
+                 <input type="submit" class="btn btn-success"  (click)="updateUser();modalRef1.hide()" value="Valider">
+               </div>
+              </form>
+        </div>
+      </ng-template>
+
+      <ng-template #template2>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Ajout d'utilisateur</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form  #patientForm="ngForm">
+                  <div class="form-group">
+                     <label class="control-label">Identifiant</label>
+                     <input class="form-control" readonly type="text" name="maxId" required
+                     [(ngModel)]="maxId"
+                     #name="ngModel">
+                  </div>
+                  <div class="form-group">
+                      <label class="control-label">Prenom</label>
+                      <input class="form-control" type="text" name="prenom" required
+                      [(ngModel)]="prenom"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Nom</label>
+                      <input class="form-control" type="text" name="nom" required
+                      [(ngModel)]="nom"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Login</label>
+                      <input class="form-control" type="text" name="login" required
+                      [(ngModel)]="login"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Password</label>
+                      <input class="form-control" type="password" name="password" required
+                      [(ngModel)]="password"
+                      #name="ngModel">
+                   </div>
+                 <div class="form-group">
+                   <input type="submit" class="btn btn-success"  (click)="add();modalRef2.hide()" value="Valider">
+                 </div>
+                </form>
+          </div>
+        </ng-template>
+        
+      <ng-template #template7>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Suppression des utilisateurs</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef7.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                 <p class="alert alert-danger"> Vous allez supprimer cet utilisateur</p>
+                 <div class="form-group">
+                    <input type="submit" class="btn btn-danger"  (click)="deleteUser();modalRef7.hide()" value="Supprimer">
+                    <input type="reset" style="margin-left: 3%" class="btn btn-default"  (click)="modalRef7.hide()" value="Annuler">
+                  </div>
+          </div>
+        </ng-template>
+  
+  </div>
+</div>
+
+
+
+
+<div *ngIf="tab_produit == 1">
+    <div class="container col-md-12">
+      <div class="panel panel-info">
+        <div class="panel panel-heading"><h1>GESTION DES SOTCKS ET VENTES</h1></div>
+        <div class="panel panel-body">
+            <div class="form-group">
+               <a class="btn btn-primary" style="margin-left: 0%;cursor: pointer;" (click)="getMaxIdP();openModal4(template4)" title="ajout produit">Add produit</a>
+            </div>
+           <table class="table table-bordered table-stripped">
+                 <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Article</th>
+                        <th scope="col">Reférance</th>
+                        <th scope="col">Prix unitaire</th>
+                        <th scope="col">quantité stock</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Option</th>
+                   </tr>
+                    
+                 </thead>
+                
+                    <tr *ngFor="let a of produit;let i=index" >
+                        <td><strong>{{a.article}}</strong></td>
+                        <td><strong>{{a.ref}}</strong></td>
+                        <td><strong>{{a.prix}}</strong></td>
+                        <td><strong>{{a.qtStock}}</strong></td>
+                        <td>
+                          <a class="btn btn-warning" style="margin-left: 5%;cursor: pointer;" (click)="getIdP(i);openModal3(template3)" title="modifier">Modifier</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" style="margin-left: 15%;cursor: pointer;"(click)="deleteP(i);openModal8(template8)" title="supprimer" >Supprimer</a>
+                        </td>  
+                        <td>
+                            <a class="btn btn-info" style="margin-left: 15%;cursor: pointer;"(click)="getJournal(i);openModal5(template5)" title="journal" >info</a>
+                        </td>  
+  
+                      </tr> 
+              </table>
+        </div>
+      </div>
+      <ng-template #template3>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Modification du produit</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef3.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form  #patientForm="ngForm">
+                  <div class="form-group">
+                     <label class="control-label">Identifiant</label>
+                     <input class="form-control" readonly type="text" name="idP" required
+                     [(ngModel)]="idP"
+                     #name="ngModel">
+                  </div>
+                   <div class="form-group">
+                      <label class="control-label">Nom</label>
+                      <input class="form-control" type="text" name="nomP" required
+                      [(ngModel)]="nomP"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Referance</label>
+                      <input class="form-control" type="text" name="ref" required
+                      [(ngModel)]="ref"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Prix</label>
+                      <input class="form-control" type="text" name="prix" required
+                      [(ngModel)]="prix"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Quantité en stock</label>
+                      <input class="form-control" readonly type="text" name="qte" required
+                      [(ngModel)]="qte"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Nouvelle entrée</label>
+                      <input class="form-control" type="number" name="stock" required
+                      [(ngModel)]="stock">
+                   </div>
+                 <div class="form-group">
+                   <input type="submit" class="btn btn-success"  (click)="updateProd();modalRef3.hide()" value="Valider">
+                 </div>
+                </form>
+          </div>
+        </ng-template>
+  
+        <ng-template #template4>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Ajout de produit</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef4.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">           
+             <form  #patientForm="ngForm">
+                <div class="form-group">
+                   <label class="control-label">Identifiant</label>
+                   <input class="form-control" readonly type="text" name="maxIdP" required
+                   [(ngModel)]="maxIdP"
+                   #name="ngModel">
+                </div>
+                 <div class="form-group">
+                    <label class="control-label">Nom</label>
+                    <input class="form-control" type="text" name="nomP" required
+                    [(ngModel)]="nomP"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Referance</label>
+                    <input class="form-control" type="text" name="ref" required
+                    [(ngModel)]="ref"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Prix</label>
+                    <input class="form-control" type="text" name="rpix" required
+                    [(ngModel)]="prix"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Quantité en stock</label>
+                    <input class="form-control" type="text" name="qte" required
+                    [(ngModel)]="qte"
+                    #name="ngModel">
+                 </div>
+                   <div class="form-group">
+                     <input type="submit" class="btn btn-success"  (click)="addP();modalRef4.hide()" value="Valider">
+                   </div>
+                  </form>
+            </div>
+          </ng-template>
+          <ng-template #template5>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Journal</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef5.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">           
+                  <table class="table table-bordered table-stripped">
+                      <thead class="thead-dark">
+                         <tr>
+                             <th scope="col">Date</th>
+                             <th scope="col">Reférance</th>
+                             <th scope="col">Entrée</th>
+                             <th scope="col">Sortie</th>
+                        </tr>
+                      </thead>
+                     
+                         <tr *ngFor="let a of Journal;let i=index" >
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.date | date :  "dd.MM.y H:m:S"  }}</strong></td>
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.ref}}</strong></td>
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.entree}}</strong></td>
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.sortie}}</strong></td>
+                         </tr> 
+                   </table>
+                  
+              </div>
+            </ng-template>
+            <ng-template #template8>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Suppression des produit</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef8.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                       <p class="alert alert-danger"> Vous allez supprimer cet produit</p>
+                       <div class="form-group">
+                          <input type="submit" class="btn btn-danger"  (click)="deleteProduit();modalRef8.hide()" value="Supprimer">
+                          <input type="reset" style="margin-left: 3%" class="btn btn-default"  (click)="modalRef8.hide()" value="Annuler">
+                        </div>
+                </div>
+              </ng-template>
+    </div>
+  </div>
+  
+
+  
+<div *ngIf="tab_vente == 1">
+  <div class="container col-md-12">
+    <div class="panel panel-info">
+      <div class="panel panel-heading"><h1>GESTION DES  VENTES</h1></div>
+      <div class="panel panel-body">
+          <table class="table table-bordered table-stripped">
+               <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Quantite</th>
+                      <th scope="col">Designation</th>
+                      <th scope="col">Prix unitaire</th>
+                      <th scope="col">Montant</th>
+                      <th scope="col">Agent</th>
+                      <th scope="col">Date vente</th>  
+                 </tr>   
+               </thead>
+                  <tr *ngFor="let a of Vente;let i=index" >
+                      <td><strong>{{a.id}}</strong> </td>
+                      <td><strong>{{a.quantite}}</strong></td>
+                      <td><strong>{{a.designation}}</strong></td>
+                      <td><strong>{{a.prixUnitaire}}</strong></td>
+                      <td><strong>{{a.montant}}</strong></td>
+                      <td><strong>{{a.agent}}</strong></td>
+                      <td><strong>{{a.date}}</strong></td>
+                        
+
+                    </tr> 
+            </table>
+      </div>
+    </div>
+
+  </div>
+</div>
