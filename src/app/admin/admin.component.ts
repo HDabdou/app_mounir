@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from '../../../node_modules/ngx-bootstrap/modal';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../service/auth-service.service';
+
 
 @Component({
   selector: 'app-admin',
@@ -11,23 +13,25 @@ export class AdminComponent implements OnInit {
 
   indiceUser : number;
   indiceProduit : number;
-  tab_produit : number=0;
+  display : number=0;
   tab_user : number=0;
   tab_vente : number = 0;
+
   displayUser(){
-    this.tab_user = 1;
-    this.tab_produit = 0;
-    this.tab_vente = 0;
+    this.display =1;
   }
   displayProduit(){
-    this.tab_produit = 1;
-    this.tab_user = 0;
-    this.tab_vente = 0;
+    this.display =2;
   }
   displayVente(){
-    this.tab_vente = 1;
-    this.tab_produit = 0;
-    this.tab_user = 0;
+    this.display =3;
+  }
+  filtreReliquat:string;
+  listReliquat:any= [];
+  displayReliquat(){
+    this.display = 4 ;
+   
+    
   }
   // journal
   noJournal:any;
@@ -39,32 +43,24 @@ export class AdminComponent implements OnInit {
   getJournal(i : number){
     this.journalByProd = this.produit[i].ref;
     console.log(this.journalByProd);
-    
   }
   // journal
-  produit = [
-    {id : 1, article : "Pack GM", ref :"PFGM", prix : 1000, qtStock : 1550, },
-    {id : 2, article : "Pack PM", ref :"PFPM", prix : 800, qtStock : 550},
-    {id : 3, article : "Etiq PM", ref :"MPEPM", prix : 600, qtStock : 2050},
-    {id : 4,article : "Etiq GM", ref :"MPEGM", prix : 600, qtStock : 1550},
-    {id : 5,article : "Film", ref :"MPF", prix : 600, qtStock : 1550},
-    {id : 6,article : "Bouteille PM", ref :"MPBPM", prix : 600, qtStock : 1550},
-    {id : 7,article : "Bouteille GM", ref :"MPBGM", prix : 600, qtStock : 1550},
-    {id : 8,article : "Produit 1", ref :"P00001", prix : 600, qtStock : 1550},
-    {id : 9,article : "Produit 2", ref :"P00002", prix : 600, qtStock : 1550}
-  ]
-  user = [
-    {id : 1 , nom : "FALL" , prenom : "Amadou" , login : "amadou@gmail.com" , password : "passer"},
-    {id : 2 , nom : "DIOP" , prenom : "Awa" , login : "awa@gmail.com" , password : "passer"},
-    {id : 3 , nom : "NDIAYE" , prenom : "Youssou" , login : "youssou@gmail.com" , password : "passer"},
-    {id : 4 , nom : "FALL" , prenom : "Fallou" , login : "fallou@gmail.com" , password : "passer"},
-    {id : 5 , nom : "NIANG" , prenom : "Aliou" , login : "aliou@gmail.com" , password : "passer"},
-  ]
+  produit = []
+  user = [];
   modalRef1: BsModalRef;
   openModal1(template1: TemplateRef<any>) {
     this.modalRef1 = this.modalService.show(template1);
   }
 
+  modalRef9: BsModalRef;
+  openModal9(template9: TemplateRef<any>) {
+    this.modalRef9 = this.modalService.show(template9);
+  }
+  
+  modalRef10: BsModalRef;
+  openModal10(template10: TemplateRef<any>) {
+    this.modalRef10 = this.modalService.show(template10);
+  }
   modalRef2: BsModalRef;
   openModal2(template2: TemplateRef<any>) {
     this.modalRef2 = this.modalService.show(template2);
@@ -77,8 +73,7 @@ export class AdminComponent implements OnInit {
         this.id = u.id;    
       }
     }
-    this.maxId=this.id +1;
-    
+    this.maxId=this.id +1;  
   }
   id:number;
   nom:string;
@@ -94,31 +89,27 @@ export class AdminComponent implements OnInit {
   }
 
   updateUser(){
-    for(let u of this.user){
-      if(u.id == this.id){
-        u.nom = this.nom;
-        u.prenom = this.prenom;
-        u.login = this.login;
-        u.password = this.password
-      }
-    }
+    this.adminService.UpdateAgent(this.id,this.nom,this.prenom,this.login,this.password).then(res =>{
+      console.log(res['message']);
+    });
+    this.adminService.listeAgent().then( res => {
+      this.user = res['message'];
+    });
     this.id = null;
     this.nom = null;
     this.prenom = null;
     this.login = null;
     this.password = null;
   }
-  adduser={
-    id:0,nom:"",prenom : "",login :"" ,password :""
-  }
+
   add(){
-    this.adduser.id=this.maxId;
-    this.adduser.nom=this.nom;
-    this.adduser.prenom=this.prenom;
-    this.adduser.login=this.login;
-    this.adduser.password=this.password;
-    this.user.push(this.adduser);
-    this.maxId = null;
+    this.adminService.addAgent(this.nom,this.prenom,this.login,this.password);
+
+    this.adminService.listeAgent().then( res => {
+      this.user = res['message'];
+    });
+
+   
     this.nom = null;
     this.prenom = null;
     this.login = null;
@@ -131,13 +122,18 @@ export class AdminComponent implements OnInit {
     this.modalRef7 = this.modalService.show(template7);
   }
   deleteUser(){
-    this.index = this.user.indexOf(this.user[this.indiceUser])
-    this.user.splice(this.index, 1);
+    this.index = this.user[this.indiceUser].id;
+    console.log(this.index);
+    
+    this.adminService.deleteAgent(this.index).then(res =>{
+      console.log(res);
+    });
+    this.adminService.listeAgent().then( res => {
+      this.user = res['message'];
+    });
   }
   delete(i :number){
     this.indiceUser = i;
-    
-    
   }
   //produit stock et vente
   
@@ -171,21 +167,72 @@ export class AdminComponent implements OnInit {
   stock:number;
  
  //approvisionnemnt de stock
+ filtre:string;
+ filtreVente:number;
+ tout(){
+  this.filtreVente=null;
+  
+ }
+ rcu(){
+  this.filtreVente=3;
+ }
+ encaisser(){
+  this.filtreVente=2;
+ }
+ NonEencaisser(){
+  this.filtreVente=1;
+ }
  //vente de produit
  modalRef6: BsModalRef;
  openModal6(template6: TemplateRef<any>) {
    this.modalRef6 = this.modalService.show(template6);
  }
  Vente = [
-   {id : 1, quantite : 5 ,prixUnitaire : 1000, designation : 'Mounir Bouteille 40 cl', montant : 5000 , agent : 'Abdou', date : '2018-09-14T10:21:49.775Z' }
- ]
- addVente = {
-  id : 0, quantite : 0 ,prixUnitaire : 0,designation : '', montant : 0 , agent : '', date : null
- }
- idVente :number;
- pu :number;
- qteVente : number;
- prodVendu : string;
+  {id : 1, date : '2018-09-14T10:21:49.775Z',nomClient:'Naby NDIAYE',adresseClient : 'Parcelle',telClient : '772228596',chargement:1000,restChergement:10,packGM:0,puGM:2000 ,packPM:50,puPM : 1000, remise:2,total:250000,encasse:150000,nonEncaisse:100000,facture:'F001',commentaire:'', agent : 'Abdou',etat:3 },
+  {id : 2, date : '2018-09-14T10:21:49.775Z',nomClient:'Abdou',adresseClient : 'Diamalaye',telClient : '779854080',chargement:1000,restChergement:10,packGM:0,puGM:2000 ,packPM:50,puPM : 1000, remise:2,total:250000,encasse:250000,nonEncaisse:0,facture:'F001',commentaire:'', agent : 'Abdou',etat:1 },
+  {id : 3, date : '2018-09-14T10:21:49.775Z',nomClient:'Abdou',adresseClient : 'Diamalaye',telClient : '779854080',chargement:1000,restChergement:10,packGM:0,puGM:2000 ,packPM:50,puPM : 1000, remise:2,total:250000,encasse:250000,nonEncaisse:0,facture:'F001',commentaire:'', agent : 'Abdou',etat:2 },
+  {id : 1, date : '2018-09-14T10:21:49.775Z',nomClient:'Cheick DIANKO',adresseClient : 'Parcelle',telClient : '772228596',chargement:1000,restChergement:10,packGM:0,puGM:2000 ,packPM:50,puPM : 1000, remise:2,total:250000,encasse:150000,nonEncaisse:100000,facture:'F001',commentaire:'', agent : 'Abdou',etat:3 },
+
+]
+IdVente:number;
+MontentVersement:number;
+getIdForVente(i){
+  this.IdVente = this.Vente[i].id;
+  console.log(this.IdVente);
+  
+}
+venteDetail:any;
+Detail(i){
+  this.venteDetail = this.Vente[i];
+}
+versement(){
+  console.log( this.IdVente);
+  for(let v of this.Vente){
+    if(v.id == this.IdVente && v.etat==2){
+      v.nonEncaisse = this.MontentVersement;
+      v.etat = 3
+    }
+  }
+  console.log( this.IdVente);
+  this.MontentVersement = null;
+  this.IdVente = null;  
+}
+getColor(etat){
+  switch(etat){
+    case 1:
+     return 'red';
+    case 2:
+     return 'orange';
+    case 3 :
+     return 'green';
+  }
+}
+ //addVente = {
+  //id : 1, date : '',nomClient:'',adresseClient : '',telClient : '',chargement:'',pack:'' ,prixUnitaire : 0,quantite:0, remise:0,total:0,encasse:0,nonEncaisse:0,designation : '', agent : '' }
+  idVente :number;
+  pu :number;
+  qteVente : number;
+  prodVendu : string;
  vendre(i : number){
     this.prodVendu = this.produit[i].article;
     this.pu = this.produit[i].prix;
@@ -197,27 +244,41 @@ export class AdminComponent implements OnInit {
     }
     this.idVente = this.idVente + 1;
  }
- vente(){
+ /*vente(){
 //  id : 0, quantite : 0 ,prixUnitaire : 0, montant : 0 , agent : '', date : null
 
-  this.addVente.id = this.idVente;
-  this.addVente.quantite = this.qteVente;
-  this.addVente.prixUnitaire = this.pu;
-  this.addVente.montant = this.qteVente * this.pu;
+  this.addVente.total = this.addVente.quantite * this.addVente.prixUnitaire;
   this.addVente.agent = this.userName;
   this.addVente.date = new Date().toJSON();
-  this.addVente.designation = this.prodVendu;
+  for(let p of this.produit){
+    if(p.ref == this.addVente.designation){
+      p.qtStock = p.qtStock - this.addVente.quantite;
+    }
+  }
+  for(let v of this.Vente){
+    if(v.id > this.addVente.id ){
+      this.addVente.id =v.id
+    }
+  }
+  this.addVente.id  = this.addVente.id +1;
   this.Vente.push(this.addVente);
+  
+  console.log(this.Vente);
+  
+  
 
   
- }
+ }*/
  //vente de produit
- idP : number;
-  maxIdP : number;
+ maxIdP : number;
+  idP : number;
   ref:string;
   nomP:string;
   prix:number;
   qte:number;
+  stockInitial:number;
+  entree:number;
+  sortie:number;
   getMaxIdP(){
     this.idP = 0;
     for(let p of this.produit){
@@ -229,14 +290,21 @@ export class AdminComponent implements OnInit {
   }
   getIdP(i : number){
     this.idP = this.produit[i].id;
-    this.nomP = this.produit[i].article;
+    this.nomP = this.produit[i].nom;
     this.ref = this.produit[i].ref;
-    this.prix = this.produit[i].prix;
-    this.qte = this.produit[i].qtStock;
+    this.prix = this.produit[i].prixUnitaire;
+    this.stockInitial = this.produit[i].stockInitial;
+    this.entree = this.produit[i].entree;
+    this.sortie = this.produit[i].sortie;
+    this.qte = this.produit[i].stockFinal;
   }
   maxIdJournal:number;
   refForJournale:string;
   updateProd(){
+    this.adminService.UpdateArticle(this.idP,this.ref,this.nomP,this.prix,this.stockInitial,this.entree,this.sortie,this.qte,this.stock).then(res =>{
+      console.log(res);
+      
+    })
     for(let p of this.produit){
       if(p.id == this.idP){
         p.id = this.idP;
@@ -265,6 +333,7 @@ export class AdminComponent implements OnInit {
         this.addJournal.sortie = 0;
         this.addJournal.commentaire = "";
         this.Journal.push(this.addJournal);
+        
     }
     console.log(this.Journal);
     
@@ -298,12 +367,28 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/login']);
     //this.userName=null;
   }
-  constructor(private modalService: BsModalService,private router: Router) { }
+  constructor(private modalService: BsModalService,private router: Router,public adminService:AuthServiceService) { }
   userName:string;
   profile : string;
+  datejourVente:any;
   ngOnInit() {
+    this.adminService.listeAgent().then( res => {
+      this.user = res['message'];
+    });
+    this.adminService.listeArticle().then(res =>{
+      this.produit=res['message'];
+    });
+    this.datejourVente= new Date().toLocaleDateString();
+    console.log(this.datejourVente);
+    
     this.userName = localStorage.getItem("userName")
     this.profile = localStorage.getItem("profile")
+    for(let v of this.Vente){
+      if(v.total > v.encasse){
+        this.listReliquat.push(v);
+      }
+    }
+    console.log(this.listReliquat);
   }
 
 }

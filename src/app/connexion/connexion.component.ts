@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../service/auth-service.service';
 
 @Component({
   selector: 'app-connexion',
@@ -14,19 +15,28 @@ export class ConnexionComponent implements OnInit {
   password:string='';
   nomUser:string = "Abdou";
   onConnect(){
-   console.log('ok');
-    if(this.login==this.loginTest && this.password==this.passwordTest){
+   //console.log('ok');
+   this.authService.autentification(this.login,this.password).then(res => {
+      console.log(res['code']);
+      if(res['code'] == 'true'){
+        console.log(res['message'].accessLevel);
+        if(res['message'].accessLevel ==1	){
+          this.router.navigate(['/accueil']);
+        }
+      }
+   });
+    /*if(this.login==this.loginTest && this.password==this.passwordTest){
       localStorage.setItem('userName' ,this.nomUser);
       localStorage.setItem('profile' ,this.login);
       this.router.navigate(['/accueil']);
       console.log(this.router)
     }else{
       alert("ko")
-    }
+    }*/
       
    
   }
-  constructor(private router: Router) { }
+  constructor(private router: Router,public authService:AuthServiceService) { }
 
   ngOnInit() {
   }

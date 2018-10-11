@@ -8,6 +8,9 @@ import { AdminComponent } from './admin/admin.component';
 import { GestStockComponent } from './gest-stock/gest-stock.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { Routes, RouterModule} from '@angular/router';
+import { AuthServiceService } from './service/auth-service.service';
+import { HttpClientModule} from '@angular/common/http';
+
 const routes:Routes=[  {path:'accueil', component:AdminComponent},
   {path:'gest-stock', component:GestStockComponent},
   {path:'login', component:ConnexionComponent},
@@ -25,9 +28,12 @@ const routes:Routes=[  {path:'accueil', component:AdminComponent},
     FormsModule,
     ModalModule.forRoot(),
     RouterModule.forRoot(routes),
-    NgPipesModule
+    NgPipesModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    AuthServiceService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

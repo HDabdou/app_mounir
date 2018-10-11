@@ -18,7 +18,10 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" style="cursor: pointer" (click)="displayVente()" >Vente</a>
-    </li>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer" (click)="displayReliquat()" >Reliquat</a>
+     </li>
   
       </ul >
       <form style="margin-left: 5%;cursor: pointer;" class="form-inline my-2 my-md-0">
@@ -37,7 +40,7 @@
       </div>
       
     </div>
-  </nav><div *ngIf="tab_user == 1">
+  </nav><div *ngIf="display == 1">
   <div class="container col-md-12">
     <div class="panel panel-info">
       <div class="panel panel-heading"><h1>GESTION DES UTILISATEURS</h1></div>
@@ -56,9 +59,7 @@
                       <th scope="col">Option</th>
                       <th scope="col">Option</th>
                  </tr>
-                  
                </thead>
-              
                   <tr *ngFor="let a of user;let i=index" >
                       <td><strong>{{a.id}}</strong> </td>
                       <td><strong>{{a.prenom}}</strong></td>
@@ -132,12 +133,6 @@
           <div class="modal-body">
               <form  #patientForm="ngForm">
                   <div class="form-group">
-                     <label class="control-label">Identifiant</label>
-                     <input class="form-control" readonly type="text" name="maxId" required
-                     [(ngModel)]="maxId"
-                     #name="ngModel">
-                  </div>
-                  <div class="form-group">
                       <label class="control-label">Prenom</label>
                       <input class="form-control" type="text" name="prenom" required
                       [(ngModel)]="prenom"
@@ -183,14 +178,385 @@
                   </div>
           </div>
         </ng-template>
-  
   </div>
 </div>
 
 
 
+<div *ngIf="display == 2">
+    <div class="container col-md-12">
+      <div class="panel panel-info">
+        <div class="panel panel-heading"><h1>GESTION DES SOTCKS ET VENTES</h1></div>
+        <div class="panel panel-body">
+            <div class="form-group">
+               <a class="btn btn-primary btn-sm" style="margin-left: 0%;cursor: pointer;" (click)="getMaxIdP();openModal4(template4)" title="ajout produit">Add produit</a>
+            </div>
+           <table class="table table-bordered table-stripped">
+                 <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Article</th>
+                        <th scope="col">Reférance</th>
+                        <th scope="col">Prix unitaire</th>
+                        <th scope="col">entree</th>
+                        <th scope="col">sortie</th>
+                        <th scope="col">quantité stock</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Option</th>
+                   </tr>
+                    
+                 </thead>
+                
+                    <tr *ngFor="let a of produit;let i=index" >
+                        <td><strong>{{a.nom}}</strong></td>
+                        <td><strong>{{a.ref}}</strong></td>
+                        <td><strong>{{a.prixUnitaire}}</strong></td>
+                        <td><strong>{{a.entree}}</strong></td>
+                        <td><strong>{{a.sortie}}</strong></td>
+                        <td><strong>{{a.stockFinal}}</strong></td>
+                        <td>
+                          <a class="btn btn-warning btn-sm" style="margin-left: 5%;cursor: pointer;" (click)="getIdP(i);openModal3(template3)" title="modifier">Modifier</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" style="margin-left: 15%;cursor: pointer;"(click)="deleteP(i);openModal8(template8)" title="supprimer" >Supprimer</a>
+                        </td>  
+                        <td>
+                            <a class="btn btn-info btn-sm" style="margin-left: 15%;cursor: pointer;"(click)="getJournal(i);openModal5(template5)" title="journal" >info</a>
+                        </td>  
+  
+                      </tr> 
+              </table>
+        </div>
+      </div>
+      <ng-template #template3>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Modification du produit</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef3.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form  #patientForm="ngForm">
+                  <div class="form-group">
+                     <label class="control-label">Identifiant</label>
+                     <input class="form-control" readonly type="text" name="idP" required
+                     [(ngModel)]="idP"
+                     #name="ngModel">
+                  </div>
+                   <div class="form-group">
+                      <label class="control-label">Nom</label>
+                      <input class="form-control" type="text" name="nomP" required
+                      [(ngModel)]="nomP"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Referance</label>
+                      <input class="form-control" type="text" name="ref" required
+                      [(ngModel)]="ref"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Prix</label>
+                      <input class="form-control" type="text" name="prix" required
+                      [(ngModel)]="prix"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Quantité en stock</label>
+                      <input class="form-control" readonly type="text" name="qte" required
+                      [(ngModel)]="qte"
+                      #name="ngModel">
+                   </div>
+                   <div class="form-group">
+                      <label class="control-label">Nouvelle entrée</label>
+                      <input class="form-control" type="number" name="stock" required
+                      [(ngModel)]="stock">
+                   </div>
+                 <div class="form-group">
+                   <input type="submit" class="btn btn-success"  (click)="updateProd();modalRef3.hide()" value="Valider">
+                 </div>
+                </form>
+          </div>
+        </ng-template>
+  
+        <ng-template #template4>
+            <div class="modal-header">
+              <h4 class="modal-title pull-left">Ajout de produit</h4>
+              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef4.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">           
+             <form  #patientForm="ngForm">
+                <div class="form-group">
+                   <label class="control-label">Identifiant</label>
+                   <input class="form-control" readonly type="text" name="maxIdP" required
+                   [(ngModel)]="maxIdP"
+                   #name="ngModel">
+                </div>
+                 <div class="form-group">
+                    <label class="control-label">Nom</label>
+                    <input class="form-control" type="text" name="nomP" required
+                    [(ngModel)]="nomP"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Referance</label>
+                    <input class="form-control" type="text" name="ref" required
+                    [(ngModel)]="ref"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Prix</label>
+                    <input class="form-control" type="text" name="rpix" required
+                    [(ngModel)]="prix"
+                    #name="ngModel">
+                 </div>
+                 <div class="form-group">
+                    <label class="control-label">Quantité en stock</label>
+                    <input class="form-control" type="text" name="qte" required
+                    [(ngModel)]="qte"
+                    #name="ngModel">
+                 </div>
+                   <div class="form-group">
+                     <input type="submit" class="btn btn-success"  (click)="addP();modalRef4.hide()" value="Valider">
+                   </div>
+                  </form>
+            </div>
+          </ng-template>
+          <ng-template #template5>
+              <div class="modal-header">
+                <h4 class="modal-title pull-left">Journal</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef5.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">           
+                  <table class="table table-bordered table-stripped">
+                      <thead class="thead-dark">
+                         <tr>
+                             <th scope="col">Date</th>
+                             <th scope="col">Reférance</th>
+                             <th scope="col">Entrée</th>
+                             <th scope="col">Sortie</th>
+                        </tr>
+                      </thead>
+                     
+                         <tr *ngFor="let a of Journal;let i=index" >
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.date | date :  "dd.MM.y H:m:S"  }}</strong></td>
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.ref}}</strong></td>
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.entree}}</strong></td>
+                             <td *ngIf="a.ref == journalByProd"><strong>{{a.sortie}}</strong></td>
+                         </tr> 
+                   </table>
+                  
+              </div>
+            </ng-template>
+            <ng-template #template8>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left">Suppression des produit</h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef8.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                       <p class="alert alert-danger"> Vous allez supprimer cet produit</p>
+                       <div class="form-group">
+                          <input type="submit" class="btn btn-danger"  (click)="deleteProduit();modalRef8.hide()" value="Supprimer">
+                          <input type="reset" style="margin-left: 3%" class="btn btn-default"  (click)="modalRef8.hide()" value="Annuler">
+                        </div>
+                </div>
+              </ng-template>
+    </div>
+  </div>
+  <div *ngIf="display == 4">
+    <div class="container col-md-12">
+      <div class="panel panel-info">
+        <div class="panel panel-heading"><h1>GESTION DES RELIQUATS</h1></div>
+        <div class="panel panel-body">
 
-<div *ngIf="tab_produit == 1">
+            <table class="table table-bordered table-stripped">
+              <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">DATE</th>
+                      <th scope="col">CLIENT</th>
+                      <th scope="col">LOCALITE</th>
+                      <th scope="col">CONTACT</th>
+                      <th scope="col">PACK GM</th>
+                      <th scope="col">P.U</th>  
+                      <th scope="col">PACK PM</th>
+                      <th scope="col">P.U</th>  
+                      <th scope="col">REMISE %</th>  
+                      <th scope="col">TOTAL</th>  
+                      <th scope="col">A ENCAISSEE</th>  
+                      <th scope="col">NON ENCAISSEE</th>  
+                      <th scope="col">OPTION</th>  
+                </tr>
+                <tr>
+                  <th colspan="4" style="background-color: white;border: transparent">
+                      Recherche :
+                    <input class="form-control" type="text"  [(ngModel)]="filtreReliquat" name="filtre" id="filtre" placeholder="Rechercher">
+                  </th>
+                </tr>   
+              </thead>
+                  <tr *ngFor="let a of listReliquat | filterBy: ['nomClient']: filtreReliquat;let i=index" >
+                      <td><strong>{{a.date | date :  "dd.MM.y H:mm:s"}}</strong></td>
+                      <td><strong>{{a.nomClient}}</strong></td>
+                      <td><strong>{{a.adresseClient}}</strong></td>
+                      <td><strong>{{a.telClient}}</strong></td>
+                      <td><strong>{{a.packGM }}</strong></td>
+                      <td><strong>{{a.puGM }}</strong></td>
+                      <td><strong>{{a.packPM }}</strong></td>
+                      <td><strong>{{a.puPM }}</strong></td>
+                      <td><strong>{{a.remise }}</strong></td>
+                      <td><strong>{{a.total }}</strong></td>
+                      <td><strong>{{a.encasse }}</strong></td>
+                      <td *ngIf="a.nonEncaisse > 0 && a.etat == 3"><strong>{{a.nonEncaisse }}</strong></td>
+                      <td *ngIf="a.nonEncaisse == 0 && a.etat == 2"><button class="btn btn-primary btn-sm" (click)="getIdForVente(i);openModal9(template9)">Encaisser </button></td>
+                      <td *ngIf="a.nonEncaisse == 0 && a.etat == 1"><button class="btn btn-primary btn-sm" disabled="true" (click)="getIdForVente(i);openModal9(template9)">Encaisser </button></td>
+                      <td><button class="btn btn-primary btn-sm" (click)="Detail(i);openModal10(template10)">Detail</button></td>
+                    </tr> 
+            </table>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  
+<div *ngIf="display == 3">
+  <div class="container col-md-12">
+    <div class="panel panel-info">
+      <div class="panel panel-heading"><h1>GESTION DES  VENTES</h1></div>
+      <div class="panel panel-body">
+        
+          <div class="row" style="margin-bottom: 2rem; margin-left: 3rem; margin-right: 3rem">
+              <div class="col-sm-6">
+                <label class="control-label" for="dateJour">Date par jour</label>
+                <div class="row">
+                  <input [(ngModel)]="datejourVente" style="margin-right: 1rem" type="date" name="datejour" id="datejour" >
+                  <button class="btn btn-primary btn-sm" type="button">Chercher</button>
+                </div>
+              </div>
+              <div class="col-sm-6" >
+                <label class="control-label" >Date par intervalle</label>
+                <div class="row">
+                    <input  name="intervalledateinit"  type="date" >
+                     à 
+                    <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" >
+                    <button  class="btn btn-primary btn-sm" type="button" >Chercher</button>
+                </div>
+              </div>
+            </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <table class="table table-bordered table-stripped">
+                  <thead class="thead-dark">
+                      <tr>
+                          <th scope="col">DATE</th>
+                          <th scope="col">CLIENT</th>
+                          <th scope="col">LOCALITE</th>
+                          <th scope="col">CONTACT</th>
+                          <th scope="col">PACK GM</th>
+                          <th scope="col">P.U</th>  
+                          <th scope="col">PACK PM</th>
+                          <th scope="col">P.U</th>  
+                          <th scope="col">REMISE %</th>  
+                          <th scope="col">TOTAL</th>  
+                          <th scope="col">A ENCAISSEE</th>  
+                          <th scope="col">NON ENCAISSEE</th>  
+                          <th scope="col">OPTION</th>  
+                    </tr>
+                    <tr>
+                      <th colspan="4" style="background-color: white;border: transparent">
+                          Recherche :
+                        <input class="form-control" [(ngModel)]="filtre" type="text" name="filtre" id="filtre" placeholder="Rechercher">
+                      </th>
+                      <th colspan="2" style="background-color: white;border: transparent">
+                        <button class="btn btn-default btn-sm" (click)="tout()">tout</button>
+                      </th>
+                      <th colspan="2"  style="background-color: white;border: transparent">
+                        <button class="btn btn-success btn-sm" (click)="rcu()">reçu</button>
+                      </th>
+                      <th colspan="2"  style="background-color: white;border: transparent">
+                        <button class="btn btn-warning btn-sm" (click)="encaisser()">encaisser</button>
+                      </th>
+                      <th colspan="2"  style="background-color: white;border: transparent">
+                        <button class="btn btn-danger btn-sm" (click)="NonEencaisser()">non encaisser</button>
+                      </th>
+
+                    </tr>   
+                  </thead>
+                      <tr *ngFor="let a of Vente | filterBy: ['etat']: filtreVente;let i=index" [ngStyle]="{'background-color':getColor(a.etat)}">
+                          <td><strong>{{a.date | date :  "dd.MM.y H:mm:s"}}</strong></td>
+                          <td><strong>{{a.nomClient}}</strong></td>
+                          <td><strong>{{a.adresseClient}}</strong></td>
+                          <td><strong>{{a.telClient}}</strong></td>
+                          <td><strong>{{a.packGM }}</strong></td>
+                          <td><strong>{{a.puGM }}</strong></td>
+                          <td><strong>{{a.packPM }}</strong></td>
+                          <td><strong>{{a.puPM }}</strong></td>
+                          <td><strong>{{a.remise }}</strong></td>
+                          <td><strong>{{a.total }}</strong></td>
+                          <td><strong>{{a.encasse }}</strong></td>
+                          <td *ngIf="a.nonEncaisse > 0 && a.etat == 3"><strong>{{a.nonEncaisse }}</strong></td>
+                          <td *ngIf="a.nonEncaisse == 0 && a.etat == 2"><button class="btn btn-primary btn-sm" (click)="getIdForVente(i);openModal9(template9)">Encaisser </button></td>
+                          <td *ngIf="a.nonEncaisse == 0 && a.etat == 1"><button class="btn btn-primary btn-sm" disabled="true" (click)="getIdForVente(i);openModal9(template9)">Encaisser </button></td>
+                          <td><button class="btn btn-primary btn-sm" (click)="Detail(i);openModal10(template10)">Detail</button></td>
+                        </tr> 
+                </table>
+      </div>
+  </div>
+
+</div>
+<ng-template #template9>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Validation de paiemenet</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef9.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+        <div class="form-group">
+          <input class="form-control" type="number" name="MontentVersement" [(ngModel)]="MontentVersement" placeholder="Montant">
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-success"  (click)="versement();modalRef9.hide()" value="Valider">
+          <input type="reset" style="margin-left: 3%" class="btn btn-danger"  (click)="modalRef9.hide()" value="Annuler">
+        </div>
+  </div>
+</ng-template>
+<ng-template #template10>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Detail de la vente</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef10.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+          <ul class="list-group">
+              <li *ngIf="venteDetail" class="list-group-item"><b>Date</b> :{{venteDetail.date}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Clinet</b> :{{venteDetail.nomClient}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Adesse Cliant</b> :{{venteDetail.adresseClient}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Téléphone</b> :{{venteDetail.telClient}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Chargement</b> :{{venteDetail.chargement}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Rest chergement</b> :{{venteDetail.restChergement}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>pack GM</b> :{{venteDetail.packGM}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Prix unitaire</b> :{{venteDetail.puGM}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>pack PM</b> :{{venteDetail.packPM}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Prix unitaire</b> :{{venteDetail.puPM}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Remise</b> :{{venteDetail.remise}} %</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Total</b> :{{venteDetail.total}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Encasse</b> :{{venteDetail.encasse}}</li>
+              <li *ngIf="venteDetail" class="list-group-item"><b>Non encaisse</b> :{{venteDetail.nonEncaisse}}</li>
+         </ul>
+      </div>
+      <div class="form-group">
+        <input type="reset"  class="btn btn-primary"  (click)="modalRef10.hide()" value="Retour">
+      </div>
+    </div>
+  </ng-template>
+  <div *ngIf="display == 4">
     <div class="container col-md-12">
       <div class="panel panel-info">
         <div class="panel panel-heading"><h1>GESTION DES SOTCKS ET VENTES</h1></div>
@@ -372,40 +738,3 @@
               </ng-template>
     </div>
   </div>
-  
-
-  
-<div *ngIf="tab_vente == 1">
-  <div class="container col-md-12">
-    <div class="panel panel-info">
-      <div class="panel panel-heading"><h1>GESTION DES  VENTES</h1></div>
-      <div class="panel panel-body">
-          <table class="table table-bordered table-stripped">
-               <thead class="thead-dark">
-                  <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Quantite</th>
-                      <th scope="col">Designation</th>
-                      <th scope="col">Prix unitaire</th>
-                      <th scope="col">Montant</th>
-                      <th scope="col">Agent</th>
-                      <th scope="col">Date vente</th>  
-                 </tr>   
-               </thead>
-                  <tr *ngFor="let a of Vente;let i=index" >
-                      <td><strong>{{a.id}}</strong> </td>
-                      <td><strong>{{a.quantite}}</strong></td>
-                      <td><strong>{{a.designation}}</strong></td>
-                      <td><strong>{{a.prixUnitaire}}</strong></td>
-                      <td><strong>{{a.montant}}</strong></td>
-                      <td><strong>{{a.agent}}</strong></td>
-                      <td><strong>{{a.date}}</strong></td>
-                        
-
-                    </tr> 
-            </table>
-      </div>
-    </div>
-
-  </div>
-</div>
