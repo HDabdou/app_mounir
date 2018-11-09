@@ -21,7 +21,7 @@ export class ConnexionComponent implements OnInit {
       if(res['code'] == 'true'){
         console.log(res['message'].accessLevel);
         if(res['message'].accessLevel ==1	){
-          this.router.navigate(['/accueil']);
+          this.router.navigate(['/gest-stock']);
         }
       }
    });

@@ -1,0 +1,9 @@
+.tableTh{
+    color: white;
+    background-color: darkslategrey;
+    border-color: #32383e;
+}
+input :read-only{
+    box-shadow: 1px 1px 8px black;
+    color: grey;
+}
