@@ -14,31 +14,28 @@ export class ConnexionComponent implements OnInit {
   login:string='';
   password:string='';
   nomUser:string = "Abdou";
+  Error:any=0;
   onConnect(){
    //console.log('ok');
    this.authService.autentification(this.login,this.password).then(res => {
       console.log(res['code']);
       if(res['code'] == 'true'){
-        console.log(res['message'].accessLevel);
+        //console.log(res['message'].prenom);
+        localStorage.setItem('userName',res['message'].prenom);
+        //console.log(localStorage.getItem('userName'));
+        
         if(res['message'].accessLevel ==1	){
           this.router.navigate(['/gest-stock']);
+
         }
+      }else{
+        this.Error = 1;
       }
    });
-    /*if(this.login==this.loginTest && this.password==this.passwordTest){
-      localStorage.setItem('userName' ,this.nomUser);
-      localStorage.setItem('profile' ,this.login);
-      this.router.navigate(['/accueil']);
-      console.log(this.router)
-    }else{
-      alert("ko")
-    }*/
-      
-   
   }
+  
   constructor(private router: Router,public authService:AuthServiceService) { }
 
   ngOnInit() {
   }
-
 }

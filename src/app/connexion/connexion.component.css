@@ -1,0 +1,24 @@
+.myBtn {
+    margin-top: 13px;
+    padding: 14px 187px;
+    background-color: #28a745;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 27px;
+    font-weight: 400;
+    color: #fff;
+    -o-box-shadow: 0px 7px 0px #28a745, 0px 11px 16px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 7px 0px #28a745, 0px 11px 16px 0px rgba(0,0,0,0.5);
+    transition: all .1s ease;
+}
+myBackground{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-image: url("/wp-content/themes/lightheme/img/raspberry-pi-blueprint-bottom.pnghttps://www.google.sn/imgres?imgurl=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F531880%2Fpexels-photo-531880.jpeg%3Fcs%3Dsrgb%26dl%3Dcold-vehicles-water-531880.jpg%26fm%3Djpg&imgrefurl=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbackground%2F&docid=_pUPWoKZqMHalM&tbnid=jkersuTP2QYZPM%3A&vet=10ahUKEwj8_5CHytPeAhXk4IUKHeA1BrAQMwg_KAIwAg..i&w=1920&h=1200&bih=657&biw=1366&q=background%20image&ved=0ahUKEwj8_5CHytPeAhXk4IUKHeA1BrAQMwg_KAIwAg&iact=mrc&uact=8");
+    background-position: right top;
+    background-size: auto 60%
+}

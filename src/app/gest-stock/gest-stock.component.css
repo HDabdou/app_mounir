@@ -1,9 +1,48 @@
+.container{
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 .tableTh{
     color: white;
     background-color: darkslategrey;
     border-color: #32383e;
 }
+.tableTh0{
+    color: white;
+    background-color: #B8860B;
+    border-color: #B8860B;
+}
+.tableTh1{
+    color: white;
+    background-color: #D2B48C;
+    border-color: #D2B48C;
+}
+.myBtn1{
+    color: #212529;
+    background-color: #B8860B;
+    border-color: #B8860B;
+}
+.myBtn{
+    color: #212529;
+    background-color: #D2B48C;
+    border-color: #D2B48C;
+}
+.tableTh2{
+    color: white;
+    background-color: darkred;
+    border-color: darkred;
+}
 input :read-only{
     box-shadow: 1px 1px 8px black;
     color: grey;
+}
+.inputWithIcon input[type=text]{
+    padding-left: 15px; 
+}
+.inputWithIcon1 input[type=number]{
+    padding-left: 15px; 
 }

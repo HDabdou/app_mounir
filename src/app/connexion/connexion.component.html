@@ -1,4 +1,4 @@
-<div class="container col-md-12">
+<div class="container col-md-12 ">
     <div class="panel">
       <div class="panel heading"></div>
       <div class="panel body">
@@ -6,7 +6,7 @@
           <div class="col-md-8 col-md-offset-4">
               <div class="login-panel panel panel-default">
                   <div class="panel-heading">
-                      <h2  class="card-title text-center">Authentifiez-vous SVP</h2>
+                      <h2  class="badge badge-dark" style="color: white;size: 9px;font-size: 275%;">Authentifiez-vous SVP</h2>
                   </div>
                   <div class="panel-body">
                       <form class="form-signin" (ngSubmit)="onConnect()"  #patientForm="ngForm">
@@ -14,14 +14,14 @@
                               <h4 class="alert alert-danger">Login ou mot de passe incorrecte</h4>
                         </div>
                         <div class="form-group">
-                          <label class="control-label"><strong>Login</strong></label>
+                          <label class="badge badge-info" style="font-size: 121%;">Login</label>
                            <input class="form-control" type="text" placeholder="Donner votre login" name="login" required
                            [(ngModel)]="login"
                            #name="ngModel">
                           
                         </div>
                         <div class="form-group">
-                          <label class="control-label"><strong> Password</strong></label>
+                          <label class="badge badge-info" style="font-size: 121%;"> Password</label>
                            <input class="form-control"  placeholder="Donner votre mot de passe" type="password" name="password" required
                            [(ngModel)]="password"
                            #name="ngModel">
@@ -29,7 +29,7 @@
                         </div>
                        <p></p>
                        <div class="form-group">
-                         <input type="submit" class="btn btn-lg btn-success btn-block text-uppercase"  value="Connexion">
+                         <input type="submit" class="myBtn"  value="Connexion">
                        </div>
                       </form>
                   </div>

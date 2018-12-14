@@ -1,358 +1,400 @@
-<nav class="navbar navbar-expand navbar-dark bg-AntiqueWhite  " style="border: 1px solid black;box-shadow: 1px 1px 8px black;">
-  <a class="navbar-brand" style="color: black;text-shadow: 2px 2px #000000;font-size: 2rem;"><b>MOUNIR</b> </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarsExample02">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link"  style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;box-shadow: 1px 1px 3px black;" (click)="displayHome()">Home <span class="sr-only"></span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;margin-left: 1rem;box-shadow: 1px 1px 3px black;" (click)="displayCaisse()" >Caisse</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;margin-left: 1rem;box-shadow: 1px 1px 3px black;" (click)="displayExploitation()" >Exploitation</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;margin-left: 1rem;box-shadow: 1px 1px 3px black;" (click)="displayPersonalisation()" >Personalisation</a>
-   </li>
-  </ul >
-  
-    <div style="margin-right: -1%;cursor: pointer;">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"  id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><strong style="color: black">Utilisateur</strong> </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown03">
-                  <a class="dropdown-item" ><strong style="color: black">{{userName}}</strong></a>
-                  <a class="dropdown-item ;btn btn-danger" style="color: white;background-color: darkred;" (click)="deconnexion()" >Déconnexion</a>
-                </div>
-              </li>
-          </ul>
-    </div>
-    
-  </div>
-</nav>
-
-<div *ngIf="menu == 1"  >
-  <div class="form-group" style="margin-top: 1rem;text-align: center;">
-    <a class="btn btn-primary "  (click)="displayEtat()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;"  title="etat">etat</a>
-    <a class="btn btn-primary " (click)="displayHistory()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;" title="historique">Historique</a>
-  </div>
-  <div *ngIf="tabCaisse == 1">
-      <div class="container col-md-12">
-        <div class="panel panel-info">
-          <div class="panel panel-heading"></div>
-          <div  class="panel panel-body">
-            <table class="table table-bordered table-stripped">
-              <thead class="tableTh">
-                 <tr>
-                     <th scope="col">Etat initial</th>
-                     <th scope="col">Entree</th>
-                     <th scope="col">Sortie</th>
-                     <th scope="col">Etat final</th>
-                </tr>
-              </thead>
-                 <tr style="box-shadow: 1px 1px 3px black;">
-                     <td><strong>{{etatInitiale}}</strong> </td>
-                     <td><strong>{{entree}}</strong></td>
-                     <td><strong>{{sortie}}</strong></td>
-                     <td><strong>{{etatFinal}}</strong></td>
-                   </tr> 
-           </table>
-          </div>
-        </div>
-      </div>
-  </div>
-  <div *ngIf="tabCaisse == 2">
-    <div class="container col-md-12">
-      <div class="panel panel-info">
-        <div class="panel panel-heading"></div>
-        <div class="panel panel-body">
-            <div class="row" style="margin-bottom: 2rem; margin-left: 3rem; margin-right: 3rem">
-                <div class="col-sm-6">
-                  <label class="control-label" for="dateJour">Date par jour</label>
-                  <div class="row">
-                    <input  type="date" id="datejour" name="datejour" [(ngModel)]="selectionjour" />
-                    <button  class="btn btn-primary btn-sm" (click)="Recherche(selectionjour)"  type="button">Chercher</button>
-                  </div>
-                </div>
-                <div class="col-sm-6" >
-                  <label class="control-label">Date par intervalle</label>
-                  <div class="row">
-                      <input  name="intervalledateinit"  type="date" [(ngModel)]="intervalledateinit" >
-                       à 
-                      <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" [(ngModel)]="intervalleddatefinal">
-                      <button  class="btn btn-primary btn-sm" type="button" (click)="rechercheIntervalle(intervalledateinit,intervalleddatefinal)" >Chercher</button>
-                  </div>
-                </div>
+<div class="container">
+  <div class="row">
+      <div class="col-12">
+            <div class="row">
+              <div class="col-12">
+                  <nav class="navbar navbar-expand  bg-AntiqueWhite  " style="border: 1px solid black;box-shadow: 1px 1px 8px black;">
+                      <a class="navbar-brand" style="color: black;text-shadow: 2px 2px #000000;font-size: 2rem;"><b>MOUNIR</b> </a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                    
+                      <div class="collapse navbar-collapse" id="navbarsExample02">
+                        <ul class="navbar-nav mr-auto">
+                          <li class="nav-item active">
+                            <a class="nav-link"  style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;box-shadow: 1px 1px 3px black;" (click)="displayHome()">Home <span class="sr-only"></span></a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;margin-left: 1rem;box-shadow: 1px 1px 3px black;" (click)="displayCaisse()" >Caisse</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;margin-left: 1rem;box-shadow: 1px 1px 3px black;" (click)="displayExploitation()" >Exploitation</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" style="border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;color: black;cursor: pointer;margin-left: 1rem;box-shadow: 1px 1px 3px black;" (click)="displayPersonalisation()" >Personalisation</a>
+                       </li>
+                      </ul >
+                      
+                        <div style="margin-right: -1%;cursor: pointer;">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"  id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><strong class="badge badge-dark" style="color: white;size: 9px;font-size: 121%;">{{Name}}</strong> </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                      <a class="dropdown-item ;btn btn-danger" style="color: white;background-color: darkred;" (click)="deconnexion()" >Déconnexion</a>
+                                    </div>
+                                  </li>
+                              </ul>
+                        </div>
+                        
+                      </div>
+                  </nav>
               </div>
-            <table class="table table-bordered table-stripped">
-                 <thead class="tableTh">
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Montant</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Caissier</th>
-                   </tr>
-                 </thead>
-                    <tr *ngFor="let a of journalCaisseByDay;let i=index" >
-                        <td><strong>{{a.date }}</strong> </td>
-                        <td><strong>{{a.montant}}</strong></td>
-                        <td *ngIf="a.type == 1"><strong>Entree</strong></td>
-                        <td *ngIf="a.type == 2"><strong>Sortie</strong></td>
-                        <td><strong>{{a.caissier}}</strong></td>
-                      </tr> 
-              </table>
-        </div>
-      </div>
-      <ng-template #template1>
-          <div class="modal-header">
-            <h4 class="modal-title pull-left">Modification de l'utilisateur</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <form  #patientForm="ngForm">
-                  <div class="form-group">
-                     <label class="control-label">Identifiant</label>
-                     <input class="form-control" readonly type="text" name="id" required
-                     [(ngModel)]="id"
-                     #name="ngModel">
-                  </div>
-                  <div class="form-group">
-                      <label class="control-label">Prenom</label>
-                      <input class="form-control" type="text" name="prenom" required
-                      [(ngModel)]="prenom"
-                      #name="ngModel">
-                   </div>
-                   <div class="form-group">
-                      <label class="control-label">Nom</label>
-                      <input class="form-control" type="text" name="nom" required
-                      [(ngModel)]="nom"
-                      #name="ngModel">
-                   </div>
-                   <div class="form-group">
-                      <label class="control-label">Login</label>
-                      <input class="form-control" type="text" name="login" required
-                      [(ngModel)]="login"
-                      #name="ngModel">
-                   </div>
-                   <div class="form-group">
-                      <label class="control-label">Password</label>
-                      <input class="form-control" type="text" name="password" required
-                      [(ngModel)]="password"
-                      #name="ngModel">
-                   </div>
-                 <div class="form-group">
-                   <input type="submit" class="btn btn-success"  (click)="updateUser();modalRef1.hide()" value="Valider">
-                 </div>
-                </form>
-          </div>
-        </ng-template>
-  
-        <ng-template #template2>
-            <div class="modal-header">
-              <h4 class="modal-title pull-left">Ajout d'utilisateur</h4>
-              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
-                <span aria-hidden="true">&times;</span>
-              </button>
             </div>
-            <div class="modal-body">
-                <form  #patientForm="ngForm">
-                    <div class="form-group">
-                        <label class="control-label">Prenom</label>
-                        <input class="form-control" type="text" name="prenom" required
-                        [(ngModel)]="prenom"
-                        #name="ngModel">
-                     </div>
-                     <div class="form-group">
-                        <label class="control-label">Nom</label>
-                        <input class="form-control" type="text" name="nom" required
-                        [(ngModel)]="nom"
-                        #name="ngModel">
-                     </div>
-                     <div class="form-group">
-                        <label class="control-label">Login</label>
-                        <input class="form-control" type="text" name="login" required
-                        [(ngModel)]="login"
-                        #name="ngModel">
-                     </div>
-                     <div class="form-group">
-                        <label class="control-label">Password</label>
-                        <input class="form-control" type="password" name="password" required
-                        [(ngModel)]="password"
-                        #name="ngModel">
-                     </div>
-                   <div class="form-group">
-                     <input type="submit" class="btn btn-success"  (click)="add();modalRef2.hide()" value="Valider">
-                   </div>
-                  </form>
+
+            <div class="row">
+                <div *ngIf="menu == 1" class="col-12" >
+                    <div class="form-group" style="margin-top: 1rem;text-align: center;">
+                      <a class="btn btn-primary "  (click)="displayEtat()"style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;color: #fff;background-color: darkslategrey;border-color: #007bff;"  title="etat">etat</a>
+                      <a class="btn btn-primary " (click)="displayHistory()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;" title="historique">Historique</a>
+                    </div>
+                    <div *ngIf="tabCaisse == 1">
+                        <div class="container col-12">
+                          <div class="panel panel-info">
+                            <div class="panel panel-heading"></div>
+                            <div  class="panel panel-body">
+                              <table class="table table-bordered table-stripped">
+                                <thead class="tableTh">
+                                   <tr>
+                                       <th scope="col">Etat initial</th>
+                                       <th scope="col">Entree</th>
+                                       <th scope="col">Sortie</th>
+                                       <th scope="col">Etat final</th>
+                                  </tr>
+                                </thead>
+                                   <tr style="box-shadow: 1px 1px 3px black;">
+                                       <td><strong>{{etatInitiale}}</strong> </td>
+                                       <td><strong>{{entree}}</strong></td>
+                                       <td><strong>{{sortie}}</strong></td>
+                                       <td><strong>{{etatFinal}}</strong></td>
+                                     </tr> 
+                             </table>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div *ngIf="tabCaisse == 2">
+                      <div class="container col-md-12">
+                        <div class="panel panel-info">
+                          <div class="panel panel-heading"></div>
+                          <div class="panel panel-body">
+                              <div class="row" style="margin-bottom: 2rem; margin-left: 3rem; margin-right: 3rem">
+                                  <div class="col-sm-6">
+                                    <label class="control-label" for="dateJour">Date par jour</label>
+                                    <div class="row">
+                                      <input  type="date" id="datejour" name="datejour" [(ngModel)]="selectionjour" />
+                                      <button  class="btn btn-primary btn-sm" (click)="Recherche(selectionjour)"  type="button">Chercher</button>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6" >
+                                    <label class="control-label">Date par intervalle</label>
+                                    <div class="row">
+                                        <input  name="intervalledateinit"  type="date" [(ngModel)]="intervalledateinit" >
+                                         à 
+                                        <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" [(ngModel)]="intervalleddatefinal">
+                                        <button  class="btn btn-primary btn-sm" type="button" (click)="rechercheIntervalle(intervalledateinit,intervalleddatefinal)" >Chercher</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              <table class="table table-bordered table-stripped">
+                                   <thead class="tableTh" style="color: white; background-color: #007bff;border-color: #32383e; ">
+                                      <tr>
+                                          <th scope="col">Date</th>
+                                          <th scope="col">Montant</th>
+                                          <th scope="col">Type</th>
+                                          <th scope="col">Caissier</th>
+                                     </tr>
+                                   </thead>
+                                      <tr *ngFor="let a of journalCaisseByDay;let i=index" >
+                                          <td><strong>{{a.date }}</strong> </td>
+                                          <td><strong>{{a.montant}}</strong></td>
+                                          <td *ngIf="a.type == 1"><strong>Entree</strong></td>
+                                          <td *ngIf="a.type == 2"><strong>Sortie</strong></td>
+                                          <td><strong>{{a.caissier}}</strong></td>
+                                        </tr> 
+                                </table>
+                          </div>
+                        </div>
+                        <ng-template #template1>
+                            <div class="modal-header">
+                              <h4 class="modal-title pull-left">Modification de l'utilisateur</h4>
+                              <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef1.hide()">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <form  #patientForm="ngForm">
+                                    <div class="form-group">
+                                       <label class="control-label">Identifiant</label>
+                                       <input class="form-control" readonly type="text" name="id" required
+                                       [(ngModel)]="id"
+                                       #name="ngModel">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Prenom</label>
+                                        <input class="form-control" type="text" name="prenom" required
+                                        [(ngModel)]="prenom"
+                                        #name="ngModel">
+                                     </div>
+                                     <div class="form-group">
+                                        <label class="control-label">Nom</label>
+                                        <input class="form-control" type="text" name="nom" required
+                                        [(ngModel)]="nom"
+                                        #name="ngModel">
+                                     </div>
+                                     <div class="form-group">
+                                        <label class="control-label">Login</label>
+                                        <input class="form-control" type="text" name="login" required
+                                        [(ngModel)]="login"
+                                        #name="ngModel">
+                                     </div>
+                                     <div class="form-group">
+                                        <label class="control-label">Password</label>
+                                        <input class="form-control" type="text" name="password" required
+                                        [(ngModel)]="password"
+                                        #name="ngModel">
+                                     </div>
+                                   <div class="form-group">
+                                     <input type="submit" class="btn btn-success"  (click)="updateUser();modalRef1.hide()" value="Valider">
+                                   </div>
+                                  </form>
+                            </div>
+                          </ng-template>
+                    
+                          <ng-template #template2>
+                              <div class="modal-header">
+                                <h4 class="modal-title pull-left">Ajout d'utilisateur</h4>
+                                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                  <form  #patientForm="ngForm">
+                                      <div class="form-group">
+                                          <label class="control-label">Prenom</label>
+                                          <input class="form-control" type="text" name="prenom" required
+                                          [(ngModel)]="prenom"
+                                          #name="ngModel">
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="control-label">Nom</label>
+                                          <input class="form-control" type="text" name="nom" required
+                                          [(ngModel)]="nom"
+                                          #name="ngModel">
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="control-label">Login</label>
+                                          <input class="form-control" type="text" name="login" required
+                                          [(ngModel)]="login"
+                                          #name="ngModel">
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="control-label">Password</label>
+                                          <input class="form-control" type="password" name="password" required
+                                          [(ngModel)]="password"
+                                          #name="ngModel">
+                                       </div>
+                                     <div class="form-group">
+                                       <input type="submit" class="btn btn-success"  (click)="add();modalRef2.hide()" value="Valider">
+                                     </div>
+                                    </form>
+                              </div>
+                            </ng-template>
+                  
+                      </div>
+                    </div>
+                  </div>
             </div>
-          </ng-template>
-
-    </div>
-  </div>
-</div>
-<div *ngIf="menu == 2">
-
-  <div >
-    <div class="container col-md-12">
-      <div class="panel panel-info">
-        <div class="panel panel-heading"></div>
-        <div class="panel panel-body">
-            <div class="row" style="margin-bottom: 2rem; margin-left: 3rem; margin-right: 3rem">
-                <div class="col-sm-6">
-                  <label class="control-label" for="dateJour">Date par jour</label>
-                  <div class="row">
-                    <input  type="date" id="datejour" style="margin-right: 1rem" name="datejour" [(ngModel)]="datejour" />
-                    <button class="btn btn-primary btn-sm" (click)="Recherche(datejour)" type="button">Chercher</button>
+            <div class="row">
+                <div *ngIf="menu == 2" class="col-12">
+                    <div >
+                      <div class="container col-md-12">
+                        <div class="panel panel-info">
+                          <div class="panel panel-heading"></div>
+                          <div class="panel panel-body">
+                              <div class="row" style="margin-bottom: 2rem; margin-left: 3rem; margin-right: 3rem">
+                                  <div class="col-sm-6">
+                                    <label class="control-label" for="dateJour">Date par jour</label>
+                                    <div class="row">
+                                      <input  type="date" id="datejour" style="margin-right: 1rem" name="datejour" [(ngModel)]="datejour" />
+                                      <button class="btn btn-primary btn-sm" (click)="Recherche(datejour)" type="button">Chercher</button>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6" >
+                                    <label class="control-label" >Date par intervalle</label>
+                                    <div class="row">
+                                        <input  name="intervalledateinit"  type="date" >
+                                         à 
+                                        <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" >
+                                        <button  class="btn btn-primary btn-sm" type="button" >Chercher</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              <table class="table table-bordered table-stripped">
+                                   <thead class="tableTh">
+                                      <tr>
+                                        <th scope="col">Article</th>
+                                        <th scope="col">Total entree </th>
+                                        <th scope="col">Total sorties</th>
+                                        <th scope="col">Bénéfice</th>
+                                     </tr>
+                                   </thead>
+                                      <tr *ngFor="let a of journalExploitation;let i=index" >
+                                          <td><strong>{{a.article}}</strong> </td>
+                                          <td ><strong>{{a.totalEntree}}</strong></td>
+                                          <td ><strong>{{a.totlaSortoe}}</strong></td>
+                                          <td><strong>{{a.benefice}}</strong></td>
+                                       </tr> 
+                                       <tr style="box-shadow: 1px 1px 3px black;">
+                                          <td><strong>Total</strong> </td>
+                                          <td ><strong>{{totalEntree}}</strong></td>
+                                          <td ><strong>{{totalSortie}}</strong></td>
+                                          <td><strong>{{totalBenefice}}</strong></td>
+                                       </tr> 
+                                </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>   
                   </div>
-                </div>
-                <div class="col-sm-6" >
-                  <label class="control-label" >Date par intervalle</label>
-                  <div class="row">
-                      <input  name="intervalledateinit"  type="date" >
-                       à 
-                      <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" >
-                      <button  class="btn btn-primary btn-sm" type="button" >Chercher</button>
+            </div>
+            <div class="row">
+                <div *ngIf="menu == 3" class="col-12">
+                    <div class="form-group" style="margin-top: 1rem;text-align: center;">
+                    
+                    <a class="badge badge-dark"  (click)="displayPersonalisation1()"style="color: white; height: 38px;size: 9px;font-size: 121%;margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;"   title="etat">Mes Services</a>
+                    <a *ngIf="btnAdd == 0" class="btn myBtn1" (click)="displayHistorique()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size: 18px" title="Ajout service">Ajout service</a>
+                    <a *ngIf="btnAdd == 1" class="btn myBtn1" (click)="displayHistorique1()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size: 18px;background-color: darkslategrey;border: darkslategrey;" title="Ajout Intervent">Ajout Intervenant</a>
+                    <a *ngIf="btnAdd == 2" class="btn myBtn" (click)="displayAddActivite()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size: 18px" title="Ajout Activité">Ajout Role</a>
+                    <a *ngIf="btnAdd == 3" class="btn btn-danger " (click)="displayAddArticle()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size:18px; color: white;background-color: darkred; border-color: darkred;" title="Ajout Article">Ajout Article</a>
+                  
+                    <!-- <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="design" placeholder="Designation ">
+                    <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="coutR" placeholder="cout de revient ">
+                    <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="PrixV" placeholder="prix de vente ">
+                    <button *ngIf="tabCaiss == 4" class="btn btn-success btn-sm"  style="margin-left: 1rem;" (click)="addArticle()">Valider</button> -->
+                    </div>
+                    <div style="margin-left:0rem;text-align: left;">
+                        <i *ngIf="btnAdd >0" class="fa fa-arrow-circle-left" title="retour" style="font-size: 268%; color: black;" (click)="retour()"></i>
+                      </div>
+                    <div *ngIf="displayForm == 3" class="form-group">
+                      <div class="inputWithIcon">
+                        <input style="width: 16%;border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="act" placeholder="Libelle role">
+                        <button *ngIf="act != undefined && act != ''"  class="btn btn-success btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;"  (click)="addActivite()">Valider</button> 
+                        <button *ngIf="act == undefined || act == ''" class="btn btn-danger btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;"  (click)="addActivite()">Fermer</button> 
+                      </div>
+                    </div>
+                    <div *ngIf="displayForm == 2" class="form-group">
+                      <div class="inputWithIcon">
+                        <input style="width: 16%;border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="intervenantA" placeholder="Nom de l'intervenant">
+                        <button *ngIf="act != undefined && act != ''"  class="btn btn-success btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;"  (click)="addIntervenat()">Valider</button> 
+                        <button *ngIf="act == undefined || act == ''" class="btn btn-danger btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;"  (click)="addIntervenat()">Fermer</button> 
+                      </div>
+                    </div>
+                    <div *ngIf="displayForm == 1">
+                      <div class="form-group">
+                        <div class="inputWithIcon">
+                          <input   style="width: 16%;border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="serv" placeholder="Nom du service">
+                          <button *ngIf="serv != undefined && serv != ''" class="btn btn-success btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;" (click)="addService()">Valider</button> 
+                          <button *ngIf="serv == undefined || serv == ''" class="btn btn-danger btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;" (click)="addService()">Fermer</button> 
+                        </div> 
+                      </div>            
+                    </div>
+                    <div *ngIf="displayForm == 4">
+                      <div class="col-sm-12">
+                        <div class="inputWithIcon inputWithIcon1">
+                          <input   style="width: 16%;border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="design" placeholder="Designation ">
+                          <input style="width: 16%;border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="coutR" placeholder="cout de revient ">
+                          <input style="width: 16%;border-radius: 2rem 0rem 2rem 2rem;border: 1px solid black;margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="PrixV" placeholder="prix de vente ">
+                          <button *ngIf="design != undefined && design != '' &&  coutR != undefined && coutR != null && PrixV != undefined && PrixV != null " class="btn btn-success btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;" (click)="addArticle()">Valider</button> 
+                          <button *ngIf="design == undefined && design == '' ||  coutR == undefined || coutR == null || PrixV == undefined && PrixV == null " class="btn btn-danger btn-sm"  style="margin-left: 1rem;border-radius: 2rem 0rem 2rem 2rem;" (click)="addArticle()">Fermer</button> 
+                        </div>
+                      </div>            
+                    </div>
+                    <div *ngIf="tabPerso == 1">
+                      <div class="container col-12">
+                        <div class="panel panel-info">
+                          <div class="panel panel-heading"></div>
+                          <div class="panel panel-body">
+                  
+                                <div *ngIf="persoMenu == 1">
+                                  <table class="table table-bordered table-stripped">
+                                    <thead class="tableTh0">
+                                      <tr>
+                                        <th scope="col"> Service</th>
+                                        <th scope="col">Option</th>
+                                        <th scope="col">Option</th>
+                                      </tr>
+                                    </thead>
+                                    <tr *ngFor="let a of Services;let i=index" >
+                                      <td *ngIf="a.etat == 1"><strong>{{a.nomService}}</strong> </td>
+                                      <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.nomService}}" [(ngModel)]="modifPerso"></td>
+                                      <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="getServcie(i)">Modifier</button> </td>
+                                      <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateServcie(i)">Valider</button> </td>
+                                      <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="detailServcie(i)">Detail</button></td>
+                                      <td *ngIf="a.etat == 2"><button class="btn btn-primary btn-sm" disabled (click)="detailServcie(i)">Detail</button></td>
+                                    </tr> 
+                                 </table>
+                                </div>
+                                <div *ngIf="persoMenu == 2">
+                                  <table class="table table-bordered table-stripped">
+                                    <thead class="tableTh">
+                                       <tr>
+                                          <th scope="col"><i class="fa fa-arrow-circle-left" title="retour" style="font-size: 168%; color: white;" (click)="retour()"></i> Intervenant</th>
+                                          <th scope="col">Option</th>
+                                          <th scope="col">Option</th>
+                                      </tr>
+                                    </thead>
+                                       <tr *ngFor="let a of listeDetail1;let i=index" >
+                                          <td *ngIf="a.etat == 1"><strong>{{a.nom}}</strong> </td>
+                                          <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.nom}}" [(ngModel)]="nomInter"></td>
+                                          <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="getIntervenent(i)">Modifier</button> </td>
+                                          <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateIntervenent(i)">Valider</button> </td>
+                                          <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="detailIntervenent(i)">Detail</button></td>
+                                          <td *ngIf="a.etat == 2"><button class="btn btn-primary btn-sm" disabled (click)="getServcie(i)">Detail</button></td>
+                                         </tr> 
+                                 </table>
+                                </div>
+                                <div *ngIf="persoMenu == 3">
+                                  <table class="table table-bordered table-stripped">
+                                    <thead class="tableTh1">
+                                       <tr>
+                                          <th scope="col"><i class="fa fa-arrow-circle-left" title="retour" style="font-size: 168%; color: white;" (click)="retour()"></i>  Activité</th>
+                                          <th scope="col">Option</th>
+                                          <th scope="col">Option</th>
+                                      </tr>
+                                    </thead>
+                                       <tr *ngFor="let a of listeDetailIntervenent;let i=index" >
+                                          <td *ngIf="a.etat == 1"><strong>{{a.libelle}}</strong> </td>
+                                          <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.libelle}}" [(ngModel)]="modifActivite"></td>
+                                          <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="getActivite(i)">Modifier</button> </td>
+                                          <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateActivite(i)">Valider</button> </td>
+                                          <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="detailActivite(i)">Detail</button></td>
+                                          <td *ngIf="a.etat == 2"><button class="btn btn-primary btn-sm" disabled (click)="getServcie(i)">Detail</button></td>
+                                         </tr> 
+                                 </table>
+                                </div>
+                                <div *ngIf="persoMenu == 4" style="margin-top: 1rem;">
+                                    <table class="table table-bordered table-stripped"  style="box-shadow: 1px 1px 3px black;">
+                                      <thead class="tableTh2">
+                                         <tr>
+                                             <th scope="col">Droit</th>
+                                             <th scope="col">Option</th>
+                                        </tr>
+                                      </thead>
+                                         <tr *ngFor="let a of listeDetailActivite;let i=index">
+                                            <td *ngIf="a.etat == 1"><strong>{{a.designation}}</strong> </td>
+                                            <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.designation}}" [(ngModel)]="designation"></td>
+                                            <td *ngIf="a.etat == 1"><button class="btn btn-info btn-sm" (click)="getArticle(i)">Modifier</button> </td>
+                                            <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateArticle(i)">Valider</button> </td>
+                                          </tr> 
+                                   </table>
+                                  </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            <table class="table table-bordered table-stripped">
-                 <thead class="tableTh">
-                    <tr>
-                        <th scope="col">Article</th>
-                        <th scope="col">Total entree </th>
-                        <th scope="col">Total sorties</th>
-                        <th scope="col">Bénéfice</th>
-                   </tr>
-                 </thead>
-                    <tr *ngFor="let a of journalExploitation;let i=index" >
-                        <td><strong>{{a.article}}</strong> </td>
-                        <td ><strong>{{a.totalEntree}}</strong></td>
-                        <td ><strong>{{a.totlaSortoe}}</strong></td>
-                        <td><strong>{{a.benefice}}</strong></td>
-                     </tr> 
-                     <tr style="box-shadow: 1px 1px 3px black;">
-                        <td><strong>Total</strong> </td>
-                        <td ><strong>{{totalEntree}}</strong></td>
-                        <td ><strong>{{totalSortie}}</strong></td>
-                        <td><strong>{{totalBenefice}}</strong></td>
-                     </tr> 
-              </table>
-        </div>
+            </div>  
       </div>
-    </div>
   </div>
 </div>
-<div *ngIf="menu == 3">
-  <div class="form-group" style="margin-top: 1rem;text-align: center;">
-    <a class="btn btn-primary "  (click)="displayPersonalisation1()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;"  title="etat">Mes Services</a>
-    <a *ngIf="btnAdd == 0" class="btn btn-primary " (click)="displayHistorique()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;" title="Ajout service">Ajout service</a>
-    <a *ngIf="btnAdd == 1" class="btn btn-primary " (click)="displayAddActivite()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;" title="Ajout Activité">Ajout Activité</a>
-    <a *ngIf="btnAdd == 2" class="btn btn-primary " (click)="displayAddArticle()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;" title="Ajout Article">Ajout Article</a>
-   
-    <!-- <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="design" placeholder="Designation ">
-    <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="coutR" placeholder="cout de revient ">
-    <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="PrixV" placeholder="prix de vente ">
-    <button *ngIf="tabCaiss == 4" class="btn btn-success btn-sm"  style="margin-left: 1rem;" (click)="addArticle()">Valider</button> -->
-  </div>
-  <div *ngIf="displayForm == 2" class="form-group">
-    <input  style="margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="act" placeholder="Nom de l'activité">
-    <button  class="btn btn-success btn-sm"  style="margin-left: 1rem;" (click)="addActivite()">Valider</button> 
-  </div>
-  <div *ngIf="displayForm == 1">
-    <div class="form-group">
-      <input   style="margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="serv" placeholder="Nom du service">
-       <button  class="btn btn-success btn-sm"  style="margin-left: 1rem;" (click)="addService()">Valider</button> 
-       
-    </div>            
-  </div>
-  <div *ngIf="displayForm == 3">
-    <div class="col-sm-8">
-        <input   style="margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="design" placeholder="Designation ">
-        <input   style="margin-left: 1rem"  type="number" name="service" id="idService" [(ngModel)]="coutR" placeholder="cout de revient ">
-        <input  style="margin-left: 1rem"  type="number" name="service" id="idService" [(ngModel)]="PrixV" placeholder="prix de vente ">
-        <button  class="btn btn-success btn-sm"  style="margin-left: 1rem" (click)="addArticle()">Valider</button> 
-    </div>            
-  </div>
-  <div *ngIf="tabPerso == 1">
-    <div class="container col-md-12">
-      <div class="panel panel-info">
-        <div class="panel panel-heading"></div>
-        <div class="panel panel-body">
 
-              <div *ngIf="persoMenu == 1">
-                <table class="table table-bordered table-stripped">
-                  <thead class="tableTh">
-                     <tr>
-                         <th scope="col"> Service</th>
-                         <th scope="col">Option</th>
-                         <th scope="col">Option</th>
-                    </tr>
-                  </thead>
-                  <tr *ngFor="let a of Services;let i=index" >
-                    <td *ngIf="a.etat == 1"><strong>{{a.nomService}}</strong> </td>
-                    <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.nomService}}" [(ngModel)]="modifPerso"></td>
-                    <td *ngIf="a.etat == 1"><button class="btn btn-primary btn-sm" (click)="getServcie(i)">Modifier</button> </td>
-                    <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateServcie(i)">Valider</button> </td>
-                    <td *ngIf="a.etat == 1"><button class="btn btn-primary btn-sm" (click)="detailServcie(i)">Detail</button></td>
-                    <td *ngIf="a.etat == 2"><button class="btn btn-primary btn-sm" disabled (click)="detailServcie(i)">Detail</button></td>
-                  </tr> 
-               </table>
-              </div>
-              <div *ngIf="persoMenu == 2">
-                <table class="table table-bordered table-stripped">
-                  <thead class="tableTh">
-                     <tr>
-                         <th scope="col"><button class="btn btn-warning btn-sm" (click)="retour()">Retour</button> Activité</th>
-                         <th scope="col">Option</th>
-                         <th scope="col">Option</th>
-                    </tr>
-                  </thead>
-                     <tr *ngFor="let a of listeDetail;let i=index" >
-                        <td *ngIf="a.etat == 1"><strong>{{a.libelle}}</strong> </td>
-                        <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.libelle}}" [(ngModel)]="modifActivite"></td>
-                        <td *ngIf="a.etat == 1"><button class="btn btn-primary btn-sm" (click)="getActivite(i)">Modifier</button> </td>
-                        <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateActivite(i)">Valider</button> </td>
-                        <td *ngIf="a.etat == 1"><button class="btn btn-primary btn-sm" (click)="detailActivite(i)">Detail</button></td>
-                        <td *ngIf="a.etat == 2"><button class="btn btn-primary btn-sm" disabled (click)="getServcie(i)">Detail</button></td>
-                       </tr> 
-               </table>
-              </div>
-              <div *ngIf="persoMenu == 3" style="margin-top: 1rem;">
-                  <table class="table table-bordered table-stripped"  style="box-shadow: 1px 1px 3px black;">
-                    <thead class="tableTh">
-                       <tr>
-                           <th scope="col"><button class="btn btn-warning btn-sm" (click)="retour()">Retour</button> Designation</th>
-                           <th scope="col">Stock</th>
-                           <th scope="col">C.R</th>
-                           <th scope="col">P.V</th>
-                           <th scope="col">Option</th>
-                      </tr>
-                    </thead>
-                       <tr *ngFor="let a of listeDetailActivite;let i=index">
-                          <td *ngIf="a.etat == 1"><strong>{{a.designation}}</strong> </td>
-                          <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.designation}}" [(ngModel)]="designation"></td>
-                          <td *ngIf="a.etat == 1"><strong>{{a.Stock}}</strong> </td>
-                          <td *ngIf="a.etat == 2"> <input type="text" style="box-shadow: 1px 1px 8px black;color: grey;" name="nom" id="" readonly value="{{a.Stock}}" [(ngModel)]="stock"></td>
-                          <td *ngIf="a.etat == 1"><strong>{{a.coutRevient}}</strong> </td>
-                          <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.coutRevient}}" [(ngModel)]="cr"></td>
-                          <td *ngIf="a.etat == 1"><strong>{{a.prixVente}}</strong> </td>
-                          <td *ngIf="a.etat == 2"> <input type="text" name="nom" id="" value="{{a.prixVente}}" [(ngModel)]="pv"></td>
-                          <td *ngIf="a.etat == 1"><button class="btn btn-primary btn-sm" (click)="getArticle(i)">Modifier</button> </td>
-                          <td *ngIf="a.etat == 2"><button class="btn btn-success btn-sm" (click)="updateArticle(i)">Valider</button> </td>
-                        </tr> 
-                 </table>
-                </div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </div>
-</div>

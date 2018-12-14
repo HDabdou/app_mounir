@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Services } from '@angular/core/src/view';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gest-stock',
@@ -14,14 +15,28 @@ export class GestStockComponent implements OnInit {
   btnAdd:number = 0;
   menu:number=1;
   datasets:any = [];
+  Intervenent =[
+    {nom:'Destockage',service:'gest-stock',etat:1},
+    {nom:'Destockage',service:'gest-stock',etat:1},
+    {nom:'Recouvrement',service:'comptabilite',etat:1},
+    {nom:'Validation',service:'comptabilite',etat:1},
+    {nom:'Versement',service:'technique',etat:1},
+    {nom:'Stockage',service:'technique',etat:1}
+  ]
+  
+ 
   displayHome(){
     this.menu = 0;
   }
   displayCaisse(){
     this.menu =1;
+    this.persoMenu = 1;
+    this.btnAdd = 0;
   }
   displayExploitation(){
     this.menu =2;
+    this.persoMenu = 1;
+    this.btnAdd = 0;
   }
   displayPersonalisation(){
     this.menu = 3;
@@ -31,6 +46,9 @@ export class GestStockComponent implements OnInit {
   displayHistorique(){
       this.displayForm = 1;
   }
+  displayHistorique1(){
+    this.displayForm = 2;
+}
   displayEtat(){
     this.tabCaisse = 1;
   }
@@ -51,22 +69,21 @@ export class GestStockComponent implements OnInit {
   Recherche(datejour){
     //let d = datejour.split('/')[2];
     let datej = datejour.split('-')[2]+"/"+datejour.split('-')[1]+"/"+datejour.split('-')[0];
-    console.log(datej);
+    //console.log(datej);
     this.journalCaisseByDay = [];
     for(let j of this.journalCaisse){
       if(j.date == datej){
-        console.log(j);
-        
+        //console.log(j);  
         this.journalCaisseByDay.push(j);
       }
     }
-    console.log(this.journalCaisseByDay);    
+    //console.log(this.journalCaisseByDay);    
   }
   rechercheIntervalle(intervalledateinit,intervalleddatefinal){
     let debut = intervalledateinit.split('-')[2]+"/"+intervalledateinit.split('-')[1]+"/"+intervalledateinit.split('-')[0];
     let fin = intervalleddatefinal.split('-')[2]+"/"+intervalleddatefinal.split('-')[1]+"/"+intervalleddatefinal.split('-')[0];
-    console.log(debut);
-    console.log(fin);
+    //console.log(debut);
+    //console.log(fin);
     this.journalCaisseByDay = [];
     for(let j of this.journalCaisse){
       if(j.date >= debut && j.date <= fin){
@@ -74,7 +91,7 @@ export class GestStockComponent implements OnInit {
         this.journalCaisseByDay.push(j);
       }
     }
-    console.log(this.journalCaisseByDay);
+   // console.log(this.journalCaisseByDay);
   }
   journalExploitation =[
     {date:new Date().toLocaleDateString(),totalEntree:20,totlaSortoe:100,article:'PACKGM',benefice:100},
@@ -104,7 +121,6 @@ export class GestStockComponent implements OnInit {
     this.modifPerso = this.Services[i].nomService;
     this.Services[i].etat=2; 
   }
-
   addService(){
     if(this.serv == undefined || this.serv == '') {
       this.displayForm = 0;
@@ -117,46 +133,52 @@ export class GestStockComponent implements OnInit {
       this.persoMenu = 1;
       this.displayForm = 0;
     }
-    
-   
   }
   listeDetail = [];
+  listeDetail1 = [];
   detailServcie(i){
     this.listeDetail = [];
+    this.listeDetail1 = [];
     let service = this.Services[i].nomService;
     this.ServiceChoose = service;
-    for(let a of this.Actvite){
-      if(a.service == service){
-        this.listeDetail.push(a);
+    for(let a of this.Intervenent){
+      if(a.service == this.Intervenent[i].service){
+        this.listeDetail1.push(a);
       }
     }
     this.btnAdd = 1;
-    console.log(this.listeDetail);
-    
+    //console.log(this.listeDetail);
     this.persoMenu = 2;
-
   }
   retour(){
     this.persoMenu =  this.persoMenu - 1;
     this.btnAdd = this.btnAdd - 1;
     this.tabCaiss = this.tabCaiss -1;
   }
+  RoleIntervenet = [
+    {libelle:'Recouvrement'},
+    {libelle:'Stockage'},
+    {libelle:'Destockage'},
+    {libelle:'Versement'},
+    {libelle:'Validation'},
+    {libelle:'Recouvrement'},
+  ]
   Actvite =[
-    {libelle:'Vente',service:'gest-stock',etat:1},
-    {libelle:'stockage',service:'gest-stock',etat:1},
-    {libelle:'Destockage',service:'gest-stock',etat:1},
-    {libelle:'Encaissement',service:'comptabilite',etat:1},
-    {libelle:'DeCaissement',service:'comptabilite',etat:1},
+    {libelle:'Vente',intervenent:'Versement',etat:1},
+    {libelle:'stockage',intervenent:'Stockage',etat:1},
+    {libelle:'Destockage',intervenent:'Destockage',etat:1},
+    {libelle:'Encaissement',intervenent:'Validation',etat:1},
+    {libelle:'DeCaissement',intervenent:'Versement',etat:1},
   ]
   Article = [
-    {designation:'Pack PM',Stock:150,coutRevient:800,prixVente:1000,activite:'Vente',etat:1},
-    {designation:'Pack GM',Stock:150,coutRevient:800,prixVente:1000,activite:'Vente',etat:1},
-    {designation:'Pack PM',Stock:150,coutRevient:800,prixVente:1000,activite:'stockage',etat:1},
-    {designation:'Pack GM',Stock:150,coutRevient:800,prixVente:1000,activite:'stockage',etat:1},
-    {designation:'Pack PM',Stock:150,coutRevient:800,prixVente:1000,activite:'Encaissement',etat:1},
-    {designation:'Pack GM',Stock:150,coutRevient:800,prixVente:1000,activite:'Encaissement',etat:1},
-    {designation:'Pack PM',Stock:150,coutRevient:800,prixVente:1000,activite:'Destockage',etat:1},
-    {designation:'Pack GM',Stock:150,coutRevient:800,prixVente:1000,activite:'Vente',etat:1},
+    {designation:'Lecture',activite:'Vente',etat:1},
+    {designation:'Lecture',activite:'Vente',etat:1},
+    {designation:'Lecture',activite:'stockage',etat:1},
+    {designation:'Lecture',activite:'stockage',etat:1},
+    {designation:'Ecriture',activite:'Encaissement',etat:1},
+    {designation:'Ecriture',activite:'Encaissement',etat:1},
+    {designation:'Ecriture',activite:'Destockage',etat:1},
+    {designation:'Ecriture',activite:'Vente',etat:1},
   ]
   design:string;
   coutR:number;
@@ -173,7 +195,7 @@ export class GestStockComponent implements OnInit {
       this.AddArticle.prixVente = this.PrixV;
       this.AddArticle.activite = this.ActiviteChoose;
       this.listeDetailActivite.push(this.AddArticle);
-      console.log(this.AddArticle);
+      //console.log(this.AddArticle);
       this.persoMenu=3;
       this.displayForm = 0;  
     }
@@ -194,16 +216,28 @@ export class GestStockComponent implements OnInit {
   listeDetailActivite =[]
   detailActivite(i){
     this.listeDetailActivite =[];
-    let activite = this.listeDetail[i].libelle;
+    let activite = this.listeDetailIntervenent[i].libelle;
     this.ActiviteChoose=activite;
     for(let a of this.Article){
       if(a.activite == activite){
         this.listeDetailActivite.push(a);
       }
     }
-    console.log(this.listeDetailActivite);
+    //console.log(this.listeDetailActivite);
+    this.persoMenu = 4;
+    this.btnAdd = 3;
+  }
+
+  listeDetailIntervenent = []
+  detailIntervenent(i){
+    this.listeDetailIntervenent = [];
+    for(let a of this.Actvite){
+      if(a.intervenent == this.listeDetail1[i].nom){
+        this.listeDetailIntervenent.push(a);
+      }
+    }
     this.persoMenu = 3;
-    this.btnAdd = 2
+    this.btnAdd = 2;
   }
   designation:string='';
   stock:string='';
@@ -215,7 +249,6 @@ export class GestStockComponent implements OnInit {
     this.cr = this.listeDetailActivite[i].coutRevient;
     this.pv = this.listeDetailActivite[i].prixVente;
     this.listeDetailActivite[i].etat= 2;
-    
   }
   updateArticle(i){
     this.listeDetailActivite[i].designation = this.designation;
@@ -228,13 +261,25 @@ export class GestStockComponent implements OnInit {
     this.modifActivite = this.listeDetail[i].libelle;
     this.listeDetail[i].etat = 2;
   }
+  nomInter:any;
+  getIntervenent(i){
+    this.nomInter = this.Intervenent[i].nom;
+    this.Intervenent[i].etat = 2;
+  }
   updateActivite(i){
     this.listeDetail[i].libelle = this.modifActivite;
     this.listeDetail[i].etat = 1;
   }
+  updateIntervenent(i){
+    this.Intervenent[i].nom=this.nomInter;
+    this.Intervenent[i].etat = 1;
+  }
   AddActivite = {libelle:'',service:'',etat:0}
   act:string;
   addActivite(){
+    this.AddActivite.etat=null;
+    this.AddActivite.libelle=null;
+    this.AddActivite.service=null;
     if(this.act == undefined || this.act == ''){
       this.displayForm = 0;
     }else{
@@ -244,17 +289,24 @@ export class GestStockComponent implements OnInit {
       this.listeDetail.push(this.AddActivite);
       console.log(this.AddActivite);
       this.displayForm=0;
+      this.act=null;
     }
   }
-
-  constructor() { }
-  
+  addIntervenat(){
+    this.displayForm=0;
+  }
+  constructor(private router: Router) { }
+  deconnexion(){
+    this.router.navigate(['/login']);
+    //this.userName=null;
+  }
   userName:string='';
   datejour:any;
   totalEntree:number=0;
   totalSortie:number=0;
   totalBenefice:number=0;
-  ngOnInit() {
+  Name:any;
+  ngOnInit() {    
     for(let l of this.journalExploitation){
       this.totalEntree = this.totalEntree + l.totalEntree;
       this.totalSortie = this.totalSortie +l.totlaSortoe;
@@ -263,17 +315,18 @@ export class GestStockComponent implements OnInit {
     let datenow = ((new Date()).toJSON()).split("T",2)[0];
     this.selectionjour = datenow;
     this.datejour = new Date().toLocaleDateString();
-    console.log(this.datejour);
+    //console.log(this.datejour);
     
     this.Recherche(this.selectionjour);
-    console.log(this.journalCaisseByDay);
+   // console.log(this.journalCaisseByDay);
     
-    this.userName = localStorage.getItem("userName");
-
+    this.Name = localStorage.getItem("userName");
+    //console.log('user ====>'+this.Name);
+    console.log(this.Intervenent);
+    
     for(let j of this.journalCaisse){
       if(j.type == 1){
-        console.log(j);
-        
+        //console.log(j);
         this.entree =this.entree + j.montant;
       }
       if(j.type == 2){
@@ -281,7 +334,5 @@ export class GestStockComponent implements OnInit {
       }
     }
     this.etatFinal = this.etatInitiale + (this.entree - this.sortie);
-    
   }
-
 }
