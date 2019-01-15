@@ -18,16 +18,13 @@ export class ConnexionComponent implements OnInit {
   onConnect(){
    //console.log('ok');
    this.authService.autentification(this.login,this.password).then(res => {
-      console.log(res['code']);
-      if(res['code'] == 'true'){
+      console.log(res['codeerror']);
+      if(res['codeerror'] == true){
         //console.log(res['message'].prenom);
         localStorage.setItem('userName',res['message'].prenom);
         //console.log(localStorage.getItem('userName'));
-        
-        if(res['message'].accessLevel ==1	){
-          this.router.navigate(['/gest-stock']);
+        this.router.navigate(['/gest-stock']);
 
-        }
       }else{
         this.Error = 1;
       }

@@ -3,7 +3,7 @@
       <div class="col-12">
             <div class="row">
               <div class="col-12">
-                  <nav class="navbar navbar-expand  bg-AntiqueWhite  " style="border: 1px solid black;box-shadow: 1px 1px 8px black;">
+                  <nav class="navbar navbar-expand  bg-AntiqueWhite  " style="border: 1px solid black;box-shadow: 1px 1px 8px black;width: 100%">
                       <a class="navbar-brand" style="color: black;text-shadow: 2px 2px #000000;font-size: 2rem;"><b>MOUNIR</b> </a>
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -68,6 +68,7 @@
                                        <td><strong>{{etatFinal}}</strong></td>
                                      </tr> 
                              </table>
+
                             </div>
                           </div>
                         </div>
@@ -215,41 +216,39 @@
                                   <div class="col-sm-6">
                                     <label class="control-label" for="dateJour">Date par jour</label>
                                     <div class="row">
-                                      <input  type="date" id="datejour" style="margin-right: 1rem" name="datejour" [(ngModel)]="datejour" />
-                                      <button class="btn btn-primary btn-sm" (click)="Recherche(datejour)" type="button">Chercher</button>
+                                      <input  type="date" id="datejour" style="margin-right: 1rem" name="datenow" [(ngModel)]="datenow" />
+                                      <button class="btn btn-primary btn-sm" (click)="rechercheExploitation()" type="button">Chercher</button>
                                     </div>
                                   </div>
                                   <div class="col-sm-6" >
                                     <label class="control-label" >Date par intervalle</label>
                                     <div class="row">
-                                        <input  name="intervalledateinit"  type="date" >
+                                        <input  name="intervalledateinit"  type="date" [(ngModel)]="intervalledateinit" >
                                          à 
-                                        <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" >
-                                        <button  class="btn btn-primary btn-sm" type="button" >Chercher</button>
+                                        <input name="intervalleddatefinal" style="margin-left: 0.5rem; margin-right: 1rem" type="date" [(ngModel)]="intervalleddatefinal" >
+                                        <button *ngIf="intervalledateinit == undefined || intervalleddatefinal == undefined" disabled  class="btn btn-primary btn-sm" (click)="rechercheIntervale()" type="button" >Chercher</button>
+                                        <button *ngIf="intervalledateinit != undefined && intervalleddatefinal != undefined"  class="btn btn-primary btn-sm" (click)="rechercheIntervale()" type="button" >Chercher</button>
                                     </div>
                                   </div>
-                                </div>
+                                </div> ()
                               <table class="table table-bordered table-stripped">
                                    <thead class="tableTh">
                                       <tr>
                                         <th scope="col">Article</th>
                                         <th scope="col">Total entree </th>
                                         <th scope="col">Total sorties</th>
-                                        <th scope="col">Bénéfice</th>
                                      </tr>
                                    </thead>
                                       <tr *ngFor="let a of journalExploitation;let i=index" >
-                                          <td><strong>{{a.article}}</strong> </td>
-                                          <td ><strong>{{a.totalEntree}}</strong></td>
-                                          <td ><strong>{{a.totlaSortoe}}</strong></td>
-                                          <td><strong>{{a.benefice}}</strong></td>
-                                       </tr> 
-                                       <tr style="box-shadow: 1px 1px 3px black;">
-                                          <td><strong>Total</strong> </td>
-                                          <td ><strong>{{totalEntree}}</strong></td>
-                                          <td ><strong>{{totalSortie}}</strong></td>
-                                          <td><strong>{{totalBenefice}}</strong></td>
-                                       </tr> 
+                                        <td><strong>{{a.designation}}</strong> </td>
+                                        <td ><strong>{{a.Entrees}}</strong></td>
+                                        <td ><strong>{{a.Sortie}}</strong></td>
+                                      </tr> 
+                                      <tr style="box-shadow: 1px 1px 3px black;">
+                                        <td><strong>Total</strong> </td>
+                                        <td ><strong>{{totalEntree}}</strong></td>
+                                        <td ><strong>{{totalSortie}}</strong></td>
+                                      </tr> 
                                 </table>
                           </div>
                         </div>
@@ -265,7 +264,7 @@
                     <a *ngIf="btnAdd == 0" class="btn myBtn1" (click)="displayHistorique()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size: 18px" title="Ajout service">Ajout service</a>
                     <a *ngIf="btnAdd == 1" class="btn myBtn1" (click)="displayHistorique1()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size: 18px;background-color: darkslategrey;border: darkslategrey;" title="Ajout Intervent">Ajout Intervenant</a>
                     <a *ngIf="btnAdd == 2" class="btn myBtn" (click)="displayAddActivite()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size: 18px" title="Ajout Activité">Ajout Role</a>
-                    <a *ngIf="btnAdd == 3" class="btn btn-danger " (click)="displayAddArticle()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size:18px; color: white;background-color: darkred; border-color: darkred;" title="Ajout Article">Ajout Article</a>
+                    <a *ngIf="btnAdd == 3" class="btn btn-danger " (click)="displayAddArticle()" style="margin-left: 0%;cursor: pointer;color: white;margin-left: 1rem;font-size:18px; color: white;background-color: darkred; border-color: darkred;" title="Ajout Droit">Ajout Droit</a>
                   
                     <!-- <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="text" name="service" id="idService" [(ngModel)]="design" placeholder="Designation ">
                     <input *ngIf="tabCaiss == 4" style="margin-left: 1rem;"  type="number" name="service" id="idService" [(ngModel)]="coutR" placeholder="cout de revient ">
@@ -338,7 +337,7 @@
                                   <table class="table table-bordered table-stripped">
                                     <thead class="tableTh">
                                        <tr>
-                                          <th scope="col"><i class="fa fa-arrow-circle-left" title="retour" style="font-size: 168%; color: white;" (click)="retour()"></i> Intervenant</th>
+                                          <th scope="col"> Intervenant</th>
                                           <th scope="col">Option</th>
                                           <th scope="col">Option</th>
                                       </tr>
@@ -357,7 +356,7 @@
                                   <table class="table table-bordered table-stripped">
                                     <thead class="tableTh1">
                                        <tr>
-                                          <th scope="col"><i class="fa fa-arrow-circle-left" title="retour" style="font-size: 168%; color: white;" (click)="retour()"></i>  Activité</th>
+                                          <th scope="col">Role</th>
                                           <th scope="col">Option</th>
                                           <th scope="col">Option</th>
                                       </tr>

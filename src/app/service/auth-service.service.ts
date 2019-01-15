@@ -5,7 +5,8 @@ import { HttpClient,HttpHeaders} from '@angular/common/http';
 })
 export class AuthServiceService {
 
-  private url:string='http://localhost/app_mounir_backend/';
+  //private url:string='http://localhost/app_mounir_backend/';
+  private url:string='http://localhost/crmMounirBackend/index.php';
   private header :HttpHeaders;
   constructor(private http:HttpClient) {
     this.header = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
@@ -14,7 +15,14 @@ export class AuthServiceService {
     //let params="id="+id;
     let data = JSON.stringify({login:login,password:password});
     let params ='param='+data;
-    let link=this.url+"agent/login.php";
+    let link=this.url+"/authenticat/login";
+    return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res);return res} ).catch(error => {console.log(error);return 'error' });
+  }
+  public tableExploitation(dateDebut,dateFin): Promise<any>{
+    //let params="id="+id;
+    let data = JSON.stringify({dateDebut:dateDebut,dateFin:dateFin});
+    let params ='param='+data;
+    let link=this.url+"/authenticat/listExploitation";
     return this.http.post(link,params,{headers:this.header}).toPromise().then( res => {console.log(res);return res} ).catch(error => {console.log(error);return 'error' });
   }
   public listeAgent(): Promise<any>{

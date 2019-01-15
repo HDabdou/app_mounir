@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Services } from '@angular/core/src/view';
 import { Router } from '@angular/router';
+import { AuthServiceService } from '../service/auth-service.service';
 
 @Component({
   selector: 'app-gest-stock',
@@ -93,13 +94,7 @@ export class GestStockComponent implements OnInit {
     }
    // console.log(this.journalCaisseByDay);
   }
-  journalExploitation =[
-    {date:new Date().toLocaleDateString(),totalEntree:20,totlaSortoe:100,article:'PACKGM',benefice:100},
-    {date:new Date().toLocaleDateString(),totalEntree:500,totlaSortoe:502,article:'PACKPM',benefice:200},
-    {date:new Date().toLocaleDateString(),totalEntree:522,totlaSortoe:114,article:'PACKGM',benefice:190},
-    {date:new Date().toLocaleDateString(),totalEntree:245,totlaSortoe:200,article:'PACKGM',benefice:15000},
-    {date:new Date().toLocaleDateString(),totalEntree:152,totlaSortoe:301,article:'PACKGM',benefice:10000},
-  ]
+  journalExploitation =[]
   modifPerso:string = '';
   modifActivite:string = '';
   Services = [
@@ -239,6 +234,7 @@ export class GestStockComponent implements OnInit {
     this.persoMenu = 3;
     this.btnAdd = 2;
   }
+  myChart:any;
   designation:string='';
   stock:string='';
   cr:string='';
@@ -295,31 +291,79 @@ export class GestStockComponent implements OnInit {
   addIntervenat(){
     this.displayForm=0;
   }
-  constructor(private router: Router) { }
+  constructor(private router: Router,public _authService:AuthServiceService) { }
   deconnexion(){
     this.router.navigate(['/login']);
     //this.userName=null;
   }
   userName:string='';
   datejour:any;
+  datenow:any;
   totalEntree:number=0;
   totalSortie:number=0;
   totalBenefice:number=0;
+  intervalledateinit:any;
+  intervalleddatefinal:any;
   Name:any;
-  ngOnInit() {    
-    for(let l of this.journalExploitation){
-      this.totalEntree = this.totalEntree + l.totalEntree;
-      this.totalSortie = this.totalSortie +l.totlaSortoe;
-      this.totalBenefice = this.totalBenefice + l.benefice;
-    }
-    let datenow = ((new Date()).toJSON()).split("T",2)[0];
-    this.selectionjour = datenow;
+  rechercheIntervale(){
+    this._authService.tableExploitation(this.intervalledateinit+' 00:00:00',this.intervalleddatefinal+' 23:59:59').then( res =>{
+      this.totalEntree = 0;
+      this.totalSortie = 0;
+      console.log(res);
+      this.journalExploitation = res['message'];
+      for(let l of this.journalExploitation){
+       if(l.Entrees != null){
+        this.totalEntree = (this.totalEntree + parseInt(l.Entrees));
+       }
+       if(l.Sortie != null){
+        this.totalSortie = (this.totalSortie + parseInt(l.Sortie));
+       }
+      }
+    }) 
+  }
+  rechercheExploitation(){
+    this._authService.tableExploitation(this.datenow+' 00:00:00',this.datenow+' 23:59:59').then( res =>{
+      this.totalEntree = 0;
+      this.totalSortie = 0;
+      console.log(res);
+      this.journalExploitation = res['message'];
+      for(let l of this.journalExploitation){
+       if(l.Entrees != null){
+        this.totalEntree = (this.totalEntree + parseInt(l.Entrees));
+       }
+       if(l.Sortie != null){
+        this.totalSortie = (this.totalSortie + parseInt(l.Sortie));
+       }
+      }
+    }) 
+  }
+  ngOnInit() { 
+    
+  
+
+   
+    this.datenow = ((new Date()).toJSON()).split("T",2)[0];
+    this.selectionjour = this.datenow;
     this.datejour = new Date().toLocaleDateString();
-    //console.log(this.datejour);
+    console.log(this.selectionjour+" "+this.datenow);
     
     this.Recherche(this.selectionjour);
    // console.log(this.journalCaisseByDay);
-    
+   this._authService.tableExploitation(this.datenow+' 00:00:00',this.datenow+' 23:59:59').then( res =>{
+    this.totalEntree = 0;
+    this.totalSortie = 0;
+    console.log(res);
+    this.journalExploitation = res['message'];
+    for(let l of this.journalExploitation){
+      if(l.Entrees != null){
+        this.totalEntree = (this.totalEntree + parseInt(l.Entrees));
+       }
+       if(l.Sortie != null){
+        this.totalSortie = (this.totalSortie + parseInt(l.Sortie));
+       }
+
+    }
+  }) 
     this.Name = localStorage.getItem("userName");
     //console.log('user ====>'+this.Name);
     console.log(this.Intervenent);
@@ -334,5 +378,8 @@ export class GestStockComponent implements OnInit {
       }
     }
     this.etatFinal = this.etatInitiale + (this.entree - this.sortie);
+    console.log(this.entree,this.sortie, this.etatFinal);
+    
+  
   }
 }
